@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html> 
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -58,9 +58,9 @@ main{max-width:640px;margin:0 auto;padding:14px 16px calc(96px + env(safe-area-i
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px 2px 14px}
 
 /* bottom nav */
-nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:5;display:grid;grid-template-columns:repeat(3,1fr);
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:5;display:grid;grid-template-columns:repeat(4,1fr);
   background:var(--surface);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
-nav.tabs button{border:0;background:transparent;border-radius:12px;min-height:52px;font-size:.95rem;color:var(--muted)}
+nav.tabs button{border:0;background:transparent;border-radius:12px;min-height:52px;padding:6px 2px;font-size:.88rem;color:var(--muted)}
 nav.tabs button[aria-current="page"]{color:var(--accent);font-weight:700;background:var(--mark)}
 
 /* library */
@@ -150,7 +150,8 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
   user-select:none;-webkit-user-select:none;touch-action:manipulation;cursor:pointer}
 #rsvp{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
 .word{display:grid;grid-template-columns:1fr auto 1fr;width:100%;padding:0 10px;
-  font-size:calc(clamp(2rem,10.5vw,3.4rem) * var(--fs,1));font-weight:700;white-space:pre;line-height:1.15}
+  font-size:calc(clamp(2rem,10.5vw,3.4rem) * var(--fs,1) * var(--fit,1));font-weight:700;white-space:pre;line-height:1.15;position:relative}
+.word .meas{position:absolute;left:-9999px;top:0;visibility:hidden;white-space:pre}
 .word .l{text-align:right;overflow:hidden}.word .p{color:var(--hl)}.word .r{text-align:left;overflow:hidden}
 .guide{position:absolute;left:50%;width:2px;height:16px;background:var(--hl);opacity:.4;transform:translateX(-50%)}
 .guide.t{top:calc(50% - 3rem * var(--fs,1))}.guide.b{bottom:calc(50% - 3rem * var(--fs,1))}
@@ -187,6 +188,43 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 
 .toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:50;
   background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:30px;font-size:.92rem;max-width:90%;text-align:center}
+
+/* cronómetro y palabras (v2) */
+.rbar .timer{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 6px;
+  background:transparent;border-color:transparent;font-variant-numeric:tabular-nums;line-height:1.1}
+.timer b{font-size:1.05rem}
+.timer small{font-size:.72rem;color:var(--muted)}
+.timer .tb{display:block;width:72px;height:4px;border-radius:4px;background:var(--line);overflow:hidden}
+.timer .tb i{display:block;height:100%;width:0;background:var(--accent)}
+.timer.near b{color:var(--hl)}
+#rWord{border-color:var(--hl);color:var(--hl);font-weight:700}
+.stitle{position:absolute;top:12px;left:16px;right:16px;text-align:center;color:var(--muted);font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+.wchips{display:flex;flex-wrap:wrap;gap:8px}
+.wchips button{min-height:48px;padding:8px 16px;border-radius:40px;font-size:1.15rem}
+.wchips button.now{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);font-weight:700}
+.rest{align-items:center;justify-content:center;text-align:center;gap:14px;padding:24px}
+.rest .clock{font-size:clamp(4rem,22vw,7rem);font-weight:700;letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1}
+.rest p{margin:0;max-width:22em;color:var(--muted)}
+.rest h2{margin:0;font-size:1.5rem}
+.rest .actions{width:min(360px,100%)}
+.wl .word-row{display:flex;align-items:stretch;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.wl .wmain{flex:1;padding:12px 14px;min-width:0}
+.wl .wmain b{display:block;font-size:1.35rem}
+.wl .wmain q{display:block;quotes:none;font-size:.92rem;color:var(--muted);margin-top:4px}
+.wl .wmain q mark{background:var(--mark);color:var(--ink);border-radius:3px;padding:0 2px}
+.wl .wmain small{display:block;font-size:.78rem;color:var(--muted);margin-top:6px}
+.wl .side{display:flex;flex-direction:column;border-left:1px solid var(--line)}
+.wl .side button{border:0;border-radius:0;background:transparent;min-height:0;flex:1;padding:6px 12px;font-size:.85rem;color:var(--muted)}
+.card-p{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;flex:1;padding:20px}
+.card-p .big-w{font-size:clamp(2.6rem,14vw,4.5rem);font-weight:700;letter-spacing:-.02em;overflow-wrap:anywhere}
+.card-p q{quotes:none;font-size:1.15rem;max-width:26em;color:var(--muted)}
+.card-p q mark{background:var(--mark);color:var(--ink);border-radius:3px;padding:0 2px}
+.pfoot{padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.urlrow{display:flex;gap:8px}
+.urlrow input{flex:1;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:1rem}
+.field input[type=text],.field input[type=url]{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px;font-size:.95rem;margin-top:8px}
+.sub{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.sub .seg{flex:0 0 200px}
 @media (prefers-reduced-motion: reduce){.switch::after{transition:none}}
 </style>
 </head>
@@ -231,6 +269,16 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
     <div class="badges" id="badges"></div>
   </section>
 
+  <!-- Palabras -->
+  <section id="v-words" hidden>
+    <div class="top"><h1>Palabras</h1><button class="primary" id="practBtn" type="button">Repasar</button></div>
+    <div class="chips" role="group" aria-label="Filtro de palabras" id="wFilter">
+      <button type="button" data-w="todo" aria-pressed="true">Por aprender</button>
+      <button type="button" data-w="done" aria-pressed="false">Aprendidas</button>
+    </div>
+    <ul class="list wl" id="wList"></ul>
+  </section>
+
   <!-- Ajustes -->
   <section id="v-settings" hidden>
     <div class="top"><h1>Ajustes</h1></div>
@@ -269,15 +317,38 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
       </div>
     </div>
     <div class="field">
+      <div class="row"><label for="setBlocks">Bloques de lectura con descanso</label><input type="checkbox" class="switch" id="setBlocks"></div>
+      <div class="sub"><span id="lblBlk">Leer</span><div class="seg" role="group" aria-labelledby="lblBlk" id="setBlk">
+        <button type="button" data-v="5">5</button><button type="button" data-v="10">10</button><button type="button" data-v="15">15</button><button type="button" data-v="20">20</button></div></div>
+      <div class="sub"><span id="lblRest">Descansar</span><div class="seg" role="group" aria-labelledby="lblRest" id="setRest">
+        <button type="button" data-v="2">2</button><button type="button" data-v="3">3</button><button type="button" data-v="5">5</button><button type="button" data-v="10">10</button></div></div>
+      <div class="sub"><label for="setSound" style="font-weight:400">Sonido y vibración al cambiar</label><input type="checkbox" class="switch" id="setSound"></div>
+      <p class="muted" style="margin:10px 0 0;font-size:.88rem">Minutos. El cronómetro solo avanza mientras se lee; al llegar al tiempo, la lectura se pausa y empieza el descanso.</p>
+    </div>
+    <div class="field">
+      <label>Copia de seguridad</label>
+      <p class="muted" style="margin:6px 0 10px;font-size:.9rem">Todo se guarda solo en este dispositivo. Crea una copia para pasarla a otro móvil: incluye textos, progreso, notas y palabras.</p>
+      <div class="actions">
+        <button type="button" id="expBtn">Crear copia</button>
+        <label class="filebtn" id="impLbl">Cargar copia<input type="file" id="impIn" aria-label="Elegir copia de seguridad"></label>
+      </div>
+      <p class="status" id="bkStatus"></p>
+    </div>
+    <div class="field">
+      <label for="setProxy">Servidor para leer enlaces (opcional)</label>
+      <p class="muted" style="margin:6px 0 0;font-size:.88rem">Déjalo vacío para usar los servicios gratuitos. Si tienes tu propio intermediario, escribe su dirección; usa {url} donde vaya el enlace.</p>
+      <input type="url" id="setProxy" placeholder="https://mi-proxy.workers.dev/?url={url}">
+    </div>
+    <div class="field">
       <label>Datos</label>
-      <p class="muted" style="margin:6px 0 10px;font-size:.9rem">Todo se guarda solo en este dispositivo.</p>
-      <button type="button" id="wipe" style="width:100%">Borrar todos los datos</button>
+      <button type="button" id="wipe" style="width:100%;margin-top:8px">Borrar todos los datos</button>
     </div>
   </section>
 </main>
 
 <nav class="tabs" aria-label="Secciones">
   <button type="button" data-v="lib" aria-current="page">Biblioteca</button>
+  <button type="button" data-v="words">Palabras</button>
   <button type="button" data-v="stats">Progreso</button>
   <button type="button" data-v="settings">Ajustes</button>
 </nav>
@@ -286,13 +357,13 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 <div class="overlay" id="reader" hidden>
   <div class="rbar">
     <button type="button" id="rClose">Cerrar</button>
-    <div class="title" id="rTitle"></div>
-    <button type="button" id="rMark">Marcar</button>
+    <button type="button" class="timer" id="rTimer" aria-label="Cronómetro de lectura"><b id="tmNow">0:00</b><small id="tmSub">leyendo</small><span class="tb"><i id="tmBar"></i></span></button>
+    <button type="button" id="rWord">Palabra</button>
     <button type="button" id="rNotes">Notas</button>
   </div>
   <div class="stage" id="stage" tabindex="0" aria-label="Lector. Toca para leer o pausar">
-    <div id="rsvp"><span class="guide t"></span><span class="guide b"></span>
-      <div class="word"><span class="l" id="wl"></span><span class="p" id="wp"></span><span class="r" id="wr"></span></div></div>
+    <div id="rsvp"><div class="stitle" id="rTitle"></div><span class="guide t"></span><span class="guide b"></span>
+      <div class="word"><span class="l" id="wl"></span><span class="p" id="wp"></span><span class="r" id="wr"></span><span class="meas" id="wm" aria-hidden="true"></span></div></div>
     <div id="page" hidden></div>
     <div class="hint" id="rHint"><span>Toca para empezar</span></div>
   </div>
@@ -321,6 +392,7 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 <dialog id="dlgAdd"><div class="dlg">
   <h2>Añadir texto</h2>
   <input type="text" id="addTitle" placeholder="Título (opcional)">
+  <div class="urlrow"><input type="url" id="addUrl" inputmode="url" placeholder="Pega un enlace (https://…)" aria-label="Enlace de una página"><button type="button" id="addUrlGo">Traer</button></div>
   <textarea id="addText" placeholder="Escribe o pega el texto aquí."></textarea>
   <div class="actions">
     <button type="button" id="addPaste">Pegar</button>
@@ -334,10 +406,34 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 <!-- Notas y marcadores -->
 <dialog id="dlgNotes"><div class="dlg">
   <h2>Marcadores y notas</h2>
+  <button type="button" id="rMark">Marcar este punto</button>
   <ul class="nlist" id="markList"></ul>
   <textarea id="noteText" placeholder="Escribe una nota sobre este punto del texto." style="min-height:90px"></textarea>
   <div class="actions"><button type="button" id="notesClose">Cerrar</button><button type="button" class="primary" id="noteSave">Guardar nota</button></div>
 </div></dialog>
+
+<!-- Palabra nueva -->
+<dialog id="dlgWord"><div class="dlg">
+  <h2>¿Qué palabra no conoces?</h2>
+  <div class="wchips" id="wordChips"></div>
+  <div class="actions"><button type="button" id="wordClose">Cancelar</button></div>
+</div></dialog>
+
+<!-- Descanso -->
+<div class="overlay rest" id="rest" hidden>
+  <h2 id="restTitle">Descanso</h2>
+  <div class="clock" id="restClock">3:00</div>
+  <p id="restMsg"></p>
+  <div class="actions"><button type="button" id="restSkip">Terminar descanso</button><button type="button" class="primary" id="restGo" hidden>Seguir leyendo</button></div>
+  <button type="button" class="ghost" id="restExit">Salir del lector</button>
+</div>
+
+<!-- Repaso de palabras -->
+<div class="overlay" id="practice" hidden>
+  <div class="rbar"><button type="button" id="pClose">Cerrar</button><div class="title" id="pCount"></div><button type="button" id="pSpeak">Escuchar</button></div>
+  <div class="card-p" id="pCard"></div>
+  <div class="pfoot"><button type="button" id="pAgain">Otra vez</button><button type="button" class="primary" id="pKnow">La sé</button></div>
+</div>
 
 <div class="toast" id="toast" hidden role="status"></div>
 
@@ -370,8 +466,10 @@ const DB = {
     return new Promise(res=>{ try{ const tx=this.db.transaction('kv','readwrite'); tx.objectStore('kv').clear(); tx.oncomplete=res; tx.onerror=res;}catch(e){res();} }); }
 };
 
-const DEF = {wpm:300, chunk:1, mode:'rsvp', punct:true, font:100, theme:'auto', custom:{bg:'#FFFDF7',fg:'#1D1D1D',hl:'#E0335B'}, testDone:false};
-let set = JSON.parse(JSON.stringify(DEF)), lib = [], sessions = [], tests = [];
+const DEF = {wpm:300, chunk:1, mode:'rsvp', punct:true, font:100, theme:'auto', custom:{bg:'#FFFDF7',fg:'#1D1D1D',hl:'#E0335B'}, testDone:false,
+  blocks:true, blockMin:10, restMin:3, sound:true, proxy:''};
+let set = JSON.parse(JSON.stringify(DEF)), lib = [], sessions = [], tests = [], words = [];
+const saveWords = () => DB.set('words', words);
 const saveSet = () => DB.set('settings', set);
 const saveLib = () => DB.set('lib', lib);
 const saveSessions = () => DB.set('sessions', sessions);
@@ -411,7 +509,7 @@ function pivotIndex(chars){
   if(first<0) return Math.floor(chars.length/2);
   let last=chars.length-1; while(last>first && !isLetter(chars[last])) last--;
   const n=last-first+1;
-  let k = chars.includes(' ') ? Math.floor(n*0.35) : (n<=1?0 : n<=5?1 : n<=9?2 : n<=13?3 : 4);
+  let k = chars.includes(' ') ? Math.floor(n*0.45) : (n<=1?0 : n<=5?1 : n<=9?2 : n<=13?3 : 4);
   let idx=first+k; while(idx<last && !isLetter(chars[idx])) idx++;
   return idx;
 }
@@ -424,9 +522,9 @@ function bionic(w){
 
 /* ---------- navegación ---------- */
 function showView(v){
-  ['lib','stats','settings'].forEach(x=>$('v-'+x).hidden = x!==v);
+  ['lib','words','stats','settings'].forEach(x=>$('v-'+x).hidden = x!==v);
   document.querySelectorAll('nav.tabs button').forEach(b=>{ if(b.dataset.v===v) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
-  if(v==='lib') renderLib(); if(v==='stats') renderStats(); if(v==='settings') renderSettings();
+  if(v==='lib') renderLib(); if(v==='words') renderWords(); if(v==='stats') renderStats(); if(v==='settings') renderSettings();
   window.scrollTo(0,0);
 }
 document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>showView(b.dataset.v));
@@ -487,7 +585,7 @@ async function addText(title, text){
 
 /* ---------- añadir: pegar, archivos, foto ---------- */
 const dlgAdd=$('dlgAdd');
-$('addBtn').onclick=()=>{ $('addTitle').value=''; $('addText').value=''; $('addStatus').textContent='Archivos: txt, pdf, docx, pptx, epub.'; dlgAdd.showModal(); $('addTitle').blur(); };
+$('addBtn').onclick=()=>{ $('addUrl').value=''; $('addTitle').value=''; $('addText').value=''; $('addStatus').textContent='Archivos: txt, pdf, docx, pptx, epub.'; dlgAdd.showModal(); $('addTitle').blur(); };
 $('addCancel').onclick=()=>dlgAdd.close();
 $('addSave').onclick=async()=>{
   const t=$('addText').value.trim();
@@ -638,10 +736,10 @@ async function openReader(id){
   $('rSeek').max=Math.max(0,R.words.length-1);
   $('reader').hidden=false; document.body.classList.add('lock');
   try{ history.pushState({reader:1},''); pushed=true; }catch(e){ pushed=false; }
-  syncReaderControls(); renderReader(); stage.focus({preventScroll:true});
+  syncReaderControls(); renderReader(); renderTimer(); stage.focus({preventScroll:true});
 }
 function doCloseReader(){
-  if(R.playing) pause(); persistPos();
+  if(R.playing) pause(); persistPos(); closeRest();
   $('reader').hidden=true; document.body.classList.remove('lock');
   renderLib();
 }
@@ -663,7 +761,21 @@ function show(text){
   if(!chars.length){ wl.textContent=wp.textContent=wr.textContent=''; return; }
   const p=pivotIndex(chars);
   wl.textContent=chars.slice(0,p).join(''); wp.textContent=chars[p]; wr.textContent=chars.slice(p+1).join('');
+  fitWord();
 }
+/* reduce la letra solo cuando la palabra no cabe a los lados de la letra de enfoque */
+function fitWord(){
+  const wl=$('wl'), wp=$('wp'), wr=$('wr'), box=wl.parentElement, m=$('wm');
+  box.style.setProperty('--fit','1');
+  const half=(box.clientWidth-20)/2;
+  if(half<=0) return;
+  m.textContent=wl.textContent; const lw=m.offsetWidth;
+  m.textContent=wr.textContent; const rw=m.offsetWidth;
+  m.textContent=wp.textContent; const pw=m.offsetWidth;
+  const need=Math.max(lw,rw)+pw/2;
+  if(need>half) box.style.setProperty('--fit', Math.max(0.2, half/need*0.97).toFixed(3));
+}
+window.addEventListener('resize',()=>{ if(!$('reader').hidden && set.mode==='rsvp') fitWord(); });
 
 const PAGE=320;
 function buildPage(start){
@@ -742,7 +854,7 @@ async function play(){
   if(!R.words.length) return;
   if(R.i>=R.words.length){ R.i=0; R.pageStart=-1; }
   R.playing=true; R.sessT=Date.now(); R.sessW=0;
-  $('rHint').hidden=true; updateMeta();
+  $('rHint').hidden=true; updateMeta(); audioInit(); timerStart();
   try{ if('wakeLock' in navigator) R.lock=await navigator.wakeLock.request('screen'); }catch(e){}
   step();
 }
@@ -750,13 +862,13 @@ function pause(){
   if(!R.playing) return;
   R.playing=false; clearTimeout(R.timer);
   if(R.i<=R.words.length && R.i>R.shown) R.i=R.shown;
-  logSession();
+  logSession(); timerStop();
   try{ R.lock && R.lock.release(); }catch(e){} R.lock=null;
   persistPos(); renderReader();
 }
 function finish(){
   R.playing=false; clearTimeout(R.timer); R.i=R.words.length;
-  logSession(); try{ R.lock && R.lock.release(); }catch(e){} R.lock=null;
+  logSession(); timerStop(); try{ R.lock && R.lock.release(); }catch(e){} R.lock=null;
   persistPos(); renderReader(); toast('Texto terminado. ¡Bien hecho!'); checkBadges();
 }
 function logSession(){
@@ -796,8 +908,8 @@ document.addEventListener('visibilitychange',()=>{ if(document.hidden && R.playi
 const snippet=i=>R.words.slice(i,i+7).join(' ')+(i+7<R.words.length?'…':'');
 $('rMark').onclick=e=>{ e.stopPropagation(); if(!R.item||!R.words.length) return;
   const pos=R.playing?R.shown:Math.min(R.i,R.words.length-1);
-  R.item.marks.push({pos, t:Date.now()}); saveLib(); toast('Marcador añadido'); };
-$('rNotes').onclick=()=>{ if(R.playing) pause(); renderNotes(); $('noteText').value=''; $('dlgNotes').showModal(); };
+  R.item.marks.push({pos, t:Date.now()}); saveLib(); renderNotes(); toast('Marcador añadido'); };
+$('rNotes').onclick=()=>{ $('rMark').hidden=!R.words.length; if(R.playing) pause(); renderNotes(); $('noteText').value=''; $('dlgNotes').showModal(); };
 $('notesClose').onclick=()=>$('dlgNotes').close();
 function renderNotes(){
   const it=R.item; if(!it) return;
@@ -930,7 +1042,15 @@ function renderSettings(){
   $('setTheme').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.t===set.theme)));
   $('customColors').hidden=set.theme!=='custom';
   $('cBg').value=set.custom.bg; $('cFg').value=set.custom.fg; $('cHl').value=set.custom.hl;
+  $('setBlocks').checked=set.blocks; $('setSound').checked=set.sound; $('setProxy').value=set.proxy||'';
+  $('setBlk').querySelectorAll('button').forEach(b=>{ b.setAttribute('aria-pressed',String(+b.dataset.v===set.blockMin)); b.disabled=!set.blocks; });
+  $('setRest').querySelectorAll('button').forEach(b=>{ b.setAttribute('aria-pressed',String(+b.dataset.v===set.restMin)); b.disabled=!set.blocks; });
 }
+$('setBlocks').onchange=e=>{ set.blocks=e.target.checked; saveSet(); renderSettings(); };
+$('setSound').onchange=e=>{ set.sound=e.target.checked; saveSet(); };
+$('setBlk').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; set.blockMin=+b.dataset.v; saveSet(); renderSettings(); });
+$('setRest').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; set.restMin=+b.dataset.v; saveSet(); renderSettings(); });
+$('setProxy').onchange=e=>{ set.proxy=e.target.value.trim(); saveSet(); };
 $('setWpm').oninput=e=>{ setWpm(+e.target.value); $('setWpmVal').textContent=set.wpm+' ppm'; };
 $('setChunk').addEventListener('click',e=>{ const b=e.target.closest('button'); if(b){ setChunkN(+b.dataset.n); renderSettings(); } });
 $('setMode').addEventListener('click',e=>{ const b=e.target.closest('button'); if(b){ set.mode=b.dataset.m; saveSet(); renderSettings(); } });
@@ -938,15 +1058,284 @@ $('setPunct').onchange=e=>{ set.punct=e.target.checked; saveSet(); };
 $('setFont').oninput=e=>{ set.font=+e.target.value; saveSet(); $('setFontVal').textContent=set.font+'%'; applyTheme(); };
 $('setTheme').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; set.theme=b.dataset.t; saveSet(); applyTheme(); renderSettings(); });
 ['cBg','cFg','cHl'].forEach((id,k)=>$(id).oninput=e=>{ set.custom[['bg','fg','hl'][k]]=e.target.value; saveSet(); applyTheme(); });
-$('wipe').onclick=async()=>{ if(!confirm('Se borrarán tu biblioteca, estadísticas, logros y ajustes. ¿Continuar?')) return;
-  await DB.clear(); set=JSON.parse(JSON.stringify(DEF)); lib=[]; sessions=[]; tests=[]; earned=new Set();
+$('wipe').onclick=async()=>{ if(!confirm('Se borrarán tu biblioteca, palabras, estadísticas, logros y ajustes. ¿Continuar?')) return;
+  await DB.clear(); set=JSON.parse(JSON.stringify(DEF)); lib=[]; sessions=[]; tests=[]; words=[]; earned=new Set();
   await addText(SAMPLE_TITLE,SAMPLE); await saveSet(); applyTheme(); showView('lib'); toast('Datos borrados'); };
+
+/* ---------- sonido ---------- */
+let actx=null;
+function audioInit(){ try{ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==='suspended') actx.resume(); }catch(e){} }
+function chime(up){
+  if(!set.sound) return;
+  try{ navigator.vibrate && navigator.vibrate(up?[120,80,120,80,260]:[300,120,300]); }catch(e){}
+  if(!actx) return;
+  const notes = up ? [523.25,659.25,783.99] : [783.99,659.25,523.25];
+  notes.forEach((f,k)=>{ const o=actx.createOscillator(), g=actx.createGain(), t=actx.currentTime+k*0.22;
+    o.type='sine'; o.frequency.value=f; g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.35,t+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.5); o.connect(g).connect(actx.destination); o.start(t); o.stop(t+0.55); });
+}
+const mmss = ms => { const s=Math.max(0,Math.round(ms/1000)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
+
+/* ---------- cronómetro por bloques ---------- */
+const B={elapsed:0, n:1, runStart:0, last:0, iv:null};
+const blockMs = () => set.blockMin*60000;
+function blockElapsed(){ return B.elapsed + (B.runStart ? Date.now()-B.runStart : 0); }
+function timerStart(){
+  if(B.runStart) return;
+  if(B.last && Date.now()-B.last > 30*60000){ B.elapsed=0; B.n=1; }   // tras media hora sin leer, empieza de cero
+  B.runStart=Date.now(); clearInterval(B.iv); B.iv=setInterval(timerTick,250); renderTimer();
+}
+function timerStop(){
+  if(B.runStart){ B.elapsed+=Date.now()-B.runStart; B.runStart=0; }
+  clearInterval(B.iv); B.iv=null; B.last=Date.now(); renderTimer();
+}
+function timerTick(){ renderTimer(); if(set.blocks && blockElapsed()>=blockMs()) endBlock(); }
+function renderTimer(){
+  const el=blockElapsed();
+  if(set.blocks){
+    const left=blockMs()-el;
+    $('tmNow').textContent=mmss(left);
+    $('tmSub').textContent=`bloque ${B.n}`;
+    $('tmBar').style.width=Math.min(100,el/blockMs()*100)+'%';
+    $('rTimer').classList.toggle('near', left<=60000);
+    $('rTimer').setAttribute('aria-label',`Bloque ${B.n}: quedan ${mmss(left)} de ${set.blockMin} minutos. Toca para reiniciar`);
+  } else {
+    $('tmNow').textContent=mmss(el); $('tmSub').textContent='leyendo'; $('tmBar').style.width='0';
+    $('rTimer').classList.remove('near');
+    $('rTimer').setAttribute('aria-label',`Tiempo leyendo: ${mmss(el)}. Toca para reiniciar`);
+  }
+}
+$('rTimer').onclick=e=>{ e.stopPropagation();
+  if(!confirm(set.blocks?'¿Reiniciar el bloque desde cero?':'¿Poner el cronómetro a cero?')) return;
+  const run=!!B.runStart; B.elapsed=0; B.n=set.blocks?B.n:1; if(run) B.runStart=Date.now(); renderTimer(); };
+
+/* ---------- descanso ---------- */
+const REST={end:0, iv:null, lock:null};
+function todayMs(){ const k=dayKey(Date.now()); return sessions.filter(s=>dayKey(s.t)===k).reduce((a,s)=>a+s.ms,0); }
+async function endBlock(){
+  pause(); B.elapsed=0; B.n++; renderTimer();
+  REST.end=Date.now()+set.restMin*60000;
+  $('restTitle').textContent='Descanso';
+  $('restMsg').textContent=`Bloque terminado: ${set.blockMin} minutos de lectura. Levántate, estírate y mira algo lejano. Hoy llevas ${fmtMin(todayMs())} leyendo.`;
+  $('restSkip').hidden=false; $('restGo').hidden=true;
+  $('rest').hidden=false; chime(false);
+  try{ if('wakeLock' in navigator) REST.lock=await navigator.wakeLock.request('screen'); }catch(e){}
+  clearInterval(REST.iv); REST.iv=setInterval(restTick,250); restTick();
+}
+function restTick(){
+  const left=REST.end-Date.now(); $('restClock').textContent=mmss(left);
+  if(left<=0){ clearInterval(REST.iv); REST.iv=null; restDone(true); }
+}
+function restDone(sound){
+  $('restTitle').textContent='¡A leer!'; $('restClock').textContent='0:00';
+  $('restMsg').textContent=`Empieza el bloque ${B.n}.`;
+  $('restSkip').hidden=true; $('restGo').hidden=false; $('restGo').focus();
+  if(sound) chime(true);
+}
+function closeRest(){ clearInterval(REST.iv); REST.iv=null; $('rest').hidden=true; try{ REST.lock&&REST.lock.release(); }catch(e){} REST.lock=null; }
+$('restSkip').onclick=()=>{ clearInterval(REST.iv); REST.iv=null; restDone(false); };
+$('restGo').onclick=()=>{ closeRest(); play(); };
+$('restExit').onclick=()=>{ closeRest(); $('rClose').click(); };
+
+/* ---------- palabras desconocidas ---------- */
+const cleanWord = w => String(w).replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu,'');
+const wordKey = w => cleanWord(w).toLocaleLowerCase('es');
+function sentenceAround(i){
+  const end=k=>R.parEnd.has(k) || /[.!?…][\"'»”)\]]*$/.test(R.words[k]||'');
+  let a=i; while(a>0 && !end(a-1) && i-a<30) a--;
+  let b=i; while(b<R.words.length-1 && !end(b) && b-i<30) b++;
+  return (a>0&&!end(a-1)?'… ':'')+R.words.slice(a,b+1).join(' ')+(b<R.words.length-1&&!end(b)?' …':'');
+}
+$('rWord').onclick=e=>{ e.stopPropagation(); if(!R.words.length) return;
+  if(R.playing) pause();
+  const cur=Math.min(R.i,R.words.length-1), to=chunkEnd(cur), from=Math.max(0,cur-Math.max(3,set.chunk));
+  const seen=new Set(), chips=[];
+  for(let k=to;k>=from;k--){ const w=cleanWord(R.words[k]); const key=wordKey(w); if(!w||seen.has(key)) continue; seen.add(key); chips.unshift({k,w,now:k>=cur}); }
+  $('wordChips').innerHTML = chips.map(c=>`<button type="button" data-wk="${c.k}" class="${c.now?'now':''}">${esc(c.w)}</button>`).join('');
+  $('dlgWord').showModal();
+};
+$('wordClose').onclick=()=>$('dlgWord').close();
+$('wordChips').addEventListener('click',e=>{ const b=e.target.closest('[data-wk]'); if(!b) return;
+  const k=+b.dataset.wk, w=cleanWord(R.words[k]), key=wordKey(w);
+  const old=words.find(x=>x.k===key);
+  if(old){ old.count=(old.count||1)+1; old.learned=false; toast(`“${w}” ya estaba guardada`); }
+  else { words.unshift({id:uid(), w, k:key, ctx:sentenceAround(k), book:R.item.title, bookId:R.item.id, pos:k, t:Date.now(), learned:false, count:1}); toast(`Guardada: ${w}`); }
+  saveWords(); $('dlgWord').close();
+});
+
+let wFilter='todo';
+$('wFilter').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; wFilter=b.dataset.w;
+  $('wFilter').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); renderWords(); });
+function ctxHtml(x){
+  const re=new RegExp('('+x.w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','i');
+  return esc(x.ctx).replace(re,'<mark>$1</mark>');
+}
+function renderWords(){
+  const todo=words.filter(x=>!x.learned), done=words.filter(x=>x.learned);
+  const btns=$('wFilter').querySelectorAll('button');
+  btns[0].textContent=`Por aprender (${todo.length})`; btns[1].textContent=`Aprendidas (${done.length})`;
+  $('practBtn').disabled=!todo.length;
+  const list=wFilter==='todo'?todo:done;
+  if(!list.length){
+    $('wList').innerHTML=`<li class="empty">${wFilter==='todo'
+      ? 'Mientras lees, toca <b>Palabra</b> para guardar las que no conozcas. Aparecerán aquí para repasarlas.'
+      : 'Las palabras que marques como sabidas en el repaso aparecerán aquí.'}</li>`; return;
+  }
+  $('wList').innerHTML=list.map(x=>`<li class="word-row"><div class="wmain"><b>${esc(x.w)}</b><q>${ctxHtml(x)}</q>
+    <small>${esc(x.book)} · ${new Date(x.t).toLocaleDateString('es',{day:'numeric',month:'short'})}${x.count>1?' · marcada '+x.count+' veces':''}</small></div>
+    <div class="side"><button type="button" data-say="${x.id}">Escuchar</button>
+    <button type="button" data-learn="${x.id}">${x.learned?'Repasar':'La sé'}</button>
+    <button type="button" data-wdel="${x.id}">Quitar</button></div></li>`).join('');
+}
+$('wList').addEventListener('click',e=>{
+  const s=e.target.closest('[data-say]'); if(s){ const x=words.find(w=>w.id===s.dataset.say); if(x) speak(x.w); return; }
+  const l=e.target.closest('[data-learn]'); if(l){ const x=words.find(w=>w.id===l.dataset.learn); if(x){ x.learned=!x.learned; saveWords(); renderWords(); } return; }
+  const d=e.target.closest('[data-wdel]'); if(d){ const x=words.find(w=>w.id===d.dataset.wdel); if(x && confirm(`¿Quitar “${x.w}”?`)){ words=words.filter(w=>w!==x); saveWords(); renderWords(); } }
+});
+function speak(text){
+  try{ if(!('speechSynthesis' in window)){ toast('Este navegador no puede leer en voz alta'); return; }
+    speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text);
+    const nl=navigator.language||''; u.lang=nl.toLowerCase().startsWith('es')?nl:'es-MX';
+    const v=speechSynthesis.getVoices().find(v=>v.lang===u.lang)||speechSynthesis.getVoices().find(v=>v.lang.toLowerCase().startsWith('es'));
+    if(v) u.voice=v; u.rate=0.85; speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+/* repaso tipo tarjetas */
+const P={q:[], i:0, known:0, shown:false};
+$('practBtn').onclick=()=>{
+  P.q=words.filter(x=>!x.learned).sort(()=>Math.random()-0.5); P.i=0; P.known=0;
+  if(!P.q.length) return;
+  $('practice').hidden=false; document.body.classList.add('lock'); renderCard();
+};
+function renderCard(){
+  if(P.i>=P.q.length){
+    $('pCount').textContent='Repaso terminado';
+    $('pCard').innerHTML=`<div class="big-w">${P.known} de ${P.q.length}</div><p class="muted">palabras aprendidas en este repaso.</p>`;
+    $('pAgain').hidden=true; $('pSpeak').hidden=true; $('pKnow').textContent='Terminar'; return;
+  }
+  const x=P.q[P.i]; P.shown=false;
+  $('pAgain').hidden=false; $('pSpeak').hidden=false; $('pKnow').textContent='La sé';
+  $('pCount').textContent=`${P.i+1} de ${P.q.length}`;
+  $('pCard').innerHTML=`<div class="big-w">${esc(x.w)}</div><button type="button" id="pShow">Ver la frase</button>`;
+  $('pShow').onclick=()=>{ $('pShow').outerHTML=`<q>${ctxHtml(x)}</q>`; };
+}
+$('pSpeak').onclick=()=>{ const x=P.q[P.i]; if(x) speak(x.w); };
+$('pAgain').onclick=()=>{ const x=P.q[P.i]; if(x){ P.q.push(x); } P.i++; renderCard(); };
+$('pKnow').onclick=()=>{
+  if(P.i>=P.q.length){ closePractice(); return; }
+  const x=P.q[P.i]; x.learned=true; P.known++; saveWords();
+  P.q=P.q.filter((y,k)=>k<=P.i||y!==x); P.i++; renderCard();
+};
+function closePractice(){ $('practice').hidden=true; document.body.classList.remove('lock'); try{ window.speechSynthesis && speechSynthesis.cancel(); }catch(e){} renderWords(); }
+$('pClose').onclick=closePractice;
+
+/* ---------- copia de seguridad ---------- */
+$('expBtn').onclick=async()=>{
+  try{
+    const texts={}; for(const it of lib) texts[it.id]=(await DB.get('t:'+it.id))||'';
+    const data={app:'lectura-rapida', version:2, exported:new Date().toISOString(), settings:set, lib, texts, sessions, tests, earned:[...earned], words};
+    const blob=new Blob([JSON.stringify(data)],{type:'application/json'});
+    const name=`lectura-rapida-copia-${dayKey(Date.now())}.json`;
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },2000);
+    $('bkStatus').textContent=`Copia creada: ${name}. Búscala en Descargas.`;
+  }catch(e){ $('bkStatus').textContent='No se pudo crear la copia: '+(e.message||e); }
+};
+$('impIn').onchange=async e=>{
+  const f=e.target.files[0]; e.target.value=''; if(!f) return;
+  try{
+    const d=JSON.parse(await f.text());
+    if(!d || d.app!=='lectura-rapida' || !Array.isArray(d.lib)) throw new Error('el archivo no es una copia de Lectura Rápida');
+    let nT=0, nW=0;
+    for(const it of d.lib){
+      const mine=lib.find(x=>x.id===it.id);
+      if(mine){ mine.pos=Math.max(mine.pos||0,it.pos||0); continue; }
+      await DB.set('t:'+it.id, (d.texts&&d.texts[it.id])||''); lib.push(Object.assign({marks:[],notes:[]},it)); nT++;
+    }
+    const sk=new Set(sessions.map(s=>s.t+':'+s.words)); (d.sessions||[]).forEach(s=>{ if(!sk.has(s.t+':'+s.words)) sessions.push(s); });
+    sessions.sort((a,b)=>a.t-b.t);
+    const tk=new Set(tests.map(t=>t.t)); (d.tests||[]).forEach(t=>{ if(!tk.has(t.t)) tests.push(t); }); tests.sort((a,b)=>a.t-b.t);
+    (d.earned||[]).forEach(x=>earned.add(x));
+    const wk=new Set(words.map(w=>w.k)); (d.words||[]).forEach(w=>{ if(!wk.has(w.k)){ words.push(w); nW++; } });
+    await Promise.all([saveLib(),saveSessions(),saveTests(),saveWords(),DB.set('earned',[...earned])]);
+    $('bkStatus').textContent=`Copia cargada: ${nT} textos y ${nW} palabras nuevas. Lo que ya tenías se ha conservado.`;
+    checkBadges();
+  }catch(err){ $('bkStatus').textContent='No se pudo cargar: '+(err.message||err); }
+};
+
+/* ---------- leer desde un enlace ---------- */
+function mdToText(md){
+  const blocks=md.replace(/\r/g,'').split(/\n\s*\n/).map(b=>b.split('\n').map(l=>l
+      .replace(/!\[[^\]]*\]\([^)]*\)/g,'')
+      .replace(/\[([^\]]*)\]\([^)]*\)/g,'$1')
+      .replace(/^\s{0,3}#{1,6}\s*/,'').replace(/^\s*(?:[-*+]|\d+\.)\s+/,'').replace(/^\s*>\s?/,'')
+      .replace(/(\*\*|__|\*|_|`)(.+?)\1/g,'$2').replace(/^[=\-_*]{3,}$/,'').trim()
+    ).filter(Boolean).join(' ').trim());
+  return blocks.filter(b=>countWords(b)>=4).join('\n\n');
+}
+function htmlToText(html){
+  const d=new DOMParser().parseFromString(html,'text/html');
+  const meta=d.querySelector('meta[property="og:title"]');
+  const title=((meta&&meta.content)||d.title||'').trim();
+  d.querySelectorAll('script,style,noscript,nav,header,footer,aside,form,iframe,svg,button,select,figure,[role=navigation],[aria-hidden=true]').forEach(e=>e.remove());
+  let root=d.querySelector('article')||d.querySelector('[role=main]')||d.querySelector('main');
+  if(!root){ const score=new Map();
+    d.querySelectorAll('p').forEach(p=>{ const n=p.textContent.trim().length; if(n<40) return; const par=p.parentElement; score.set(par,(score.get(par)||0)+n); });
+    const best=[...score].sort((a,b)=>b[1]-a[1])[0]; root=best?best[0]:d.body; }
+  if(!root) return {title, text:''};
+  const seen=new Set(), out=[];
+  root.querySelectorAll('h1,h2,h3,p,li,blockquote').forEach(el=>{
+    if(el.closest('li,blockquote')!==el && el.closest('li,blockquote')) return;
+    const t=el.textContent.replace(/\s+/g,' ').trim(); if(countWords(t)<4 || seen.has(t)) return; seen.add(t); out.push(t); });
+  return {title, text: out.join('\n\n') || root.textContent.replace(/\s+/g,' ').trim()};
+}
+async function fetchUrlText(url){
+  const tries=[], enc=encodeURIComponent(url);
+  if(set.proxy) tries.push({kind:'html', u: set.proxy.includes('{url}') ? set.proxy.replace('{url}',enc) : set.proxy+enc});
+  tries.push({kind:'jina', u:'https://r.jina.ai/'+url});
+  tries.push({kind:'html', u:'https://api.allorigins.win/raw?url='+enc});
+  tries.push({kind:'html', u:'https://api.codetabs.com/v1/proxy/?quest='+enc});
+  const errs=[];
+  for(const t of tries){
+    try{
+      const ctl=new AbortController(), to=setTimeout(()=>ctl.abort(),20000);
+      const r=await fetch(t.u,{signal:ctl.signal}); clearTimeout(to);
+      if(!r.ok) throw new Error('respuesta '+r.status);
+      const body=await r.text(); let out;
+      if(t.kind==='jina'){
+        const m=body.match(/^Title:\s*(.*)$/m), c=body.split(/^Markdown Content:\s*$/m);
+        if(!m || c.length<2) throw new Error('formato inesperado');
+        out={title:m[1].trim(), text:mdToText(c.slice(1).join('\n'))};
+      } else out=htmlToText(body);
+      if(countWords(out.text)<20) throw new Error('casi sin texto');
+      return out;
+    }catch(e){ errs.push(new URL(t.u).host+': '+(e.name==='AbortError'?'tardó demasiado':e.message)); }
+  }
+  throw new Error(errs.join(' · '));
+}
+$('addUrlGo').onclick=async()=>{
+  let url=$('addUrl').value.trim();
+  if(!url){ $('addUrl').focus(); $('addStatus').textContent='Pega primero la dirección de la página.'; return; }
+  if(!/^https?:\/\//i.test(url)) url='https://'+url;
+  try{ new URL(url); }catch(e){ $('addStatus').textContent='Esa dirección no es válida.'; return; }
+  const btn=$('addUrlGo'); btn.disabled=true; btn.textContent='Trayendo…';
+  $('addStatus').textContent='Buscando el texto de la página… puede tardar unos segundos.';
+  try{
+    const {title,text}=await fetchUrlText(url);
+    if(!$('addTitle').value.trim() && title) $('addTitle').value=title;
+    $('addText').value=text; $('addText').scrollTop=0;
+    $('addStatus').textContent=`${fmtN(countWords(text))} palabras de ${new URL(url).hostname}. Revisa el texto y borra lo que sobre antes de guardar.`;
+  }catch(err){
+    $('addStatus').textContent='No se pudo leer la página. Prueba a abrirla, copiar el texto y usar Pegar. Detalle: '+err.message;
+  }finally{ btn.disabled=false; btn.textContent='Traer'; }
+};
 
 /* ---------- inicio ---------- */
 (async function init(){
   await DB.open();
   const s=await DB.get('settings'); if(s) set=Object.assign(JSON.parse(JSON.stringify(DEF)),s);
-  lib=(await DB.get('lib'))||[]; sessions=(await DB.get('sessions'))||[]; tests=(await DB.get('tests'))||[];
+  lib=(await DB.get('lib'))||[]; sessions=(await DB.get('sessions'))||[]; tests=(await DB.get('tests'))||[]; words=(await DB.get('words'))||[];
   earned=new Set((await DB.get('earned'))||[]);
   if(!(await DB.get('seeded'))){ if(!lib.length) await addText(SAMPLE_TITLE,SAMPLE); await DB.set('seeded',true); }
   lib.forEach(x=>{ x.marks=x.marks||[]; x.notes=x.notes||[]; });
@@ -959,5 +1348,1357 @@ if('serviceWorker' in navigator && location.protocol==='https:' && !window.claud
 }
 })();
 </script>
+</body>
+</html>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lectura Rápida</title>
+<meta name="theme-color" content="#1F5FA8">
+<meta name="description" content="Entrena tu velocidad de lectura con RSVP, lectura por línea y biónica.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E9EEF3;--surface:#FFFFFF;--ink:#16202E;--muted:#5B6878;--line:#C9D3DE;
+  --hl:#D62F45;--accent:#1F5FA8;--accent-ink:#FFFFFF;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121821;--surface:#1B2330;--ink:#E7ECF2;--muted:#93A0B0;--line:#2E3A4A;
+    --hl:#FF5A6E;--accent:#6FA8F0;--accent-ink:#0E1520;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121821;--surface:#1B2330;--ink:#E7ECF2;--muted:#93A0B0;--line:#2E3A4A;
+  --hl:#FF5A6E;--accent:#6FA8F0;--accent-ink:#0E1520;
+}
+body.t-light{--bg:#E9EEF3;--surface:#FFFFFF;--ink:#16202E;--muted:#5B6878;--line:#C9D3DE;--hl:#D62F45;--accent:#1F5FA8;--accent-ink:#FFFFFF}
+body.t-dark{--bg:#121821;--surface:#1B2330;--ink:#E7ECF2;--muted:#93A0B0;--line:#2E3A4A;--hl:#FF5A6E;--accent:#6FA8F0;--accent-ink:#0E1520}
+body.t-sepia{--bg:#EFE4CF;--surface:#F8EFDD;--ink:#3B2F22;--muted:#7A6A55;--line:#D9C8A8;--hl:#B4412F;--accent:#7A5A2E;--accent-ink:#FFF8EC}
+body.t-custom{--surface:color-mix(in srgb,var(--bg) 93%,var(--ink));--line:color-mix(in srgb,var(--bg) 75%,var(--ink));
+  --muted:color-mix(in srgb,var(--ink) 62%,var(--bg));--accent:var(--hl);--accent-ink:var(--bg)}
+body{--mark:color-mix(in srgb,var(--accent) 20%,transparent)}
+
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+  font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  -webkit-tap-highlight-color:transparent;line-height:1.45}
+body.lock{overflow:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;min-height:46px;cursor:pointer;color:var(--ink)}
+button:active{transform:scale(.98)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.ghost{background:transparent;border-color:transparent}
+.muted{color:var(--muted)}
+h1{font-size:1.6rem;margin:0;letter-spacing:-.015em}
+h2{font-size:1.1rem;margin:22px 0 10px}
+
+main{max-width:640px;margin:0 auto;padding:14px 16px calc(96px + env(safe-area-inset-bottom,0px))}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px 2px 14px}
+
+/* bottom nav */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:5;display:grid;grid-template-columns:repeat(4,1fr);
+  background:var(--surface);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+nav.tabs button{border:0;background:transparent;border-radius:12px;min-height:52px;padding:6px 2px;font-size:.88rem;color:var(--muted)}
+nav.tabs button[aria-current="page"]{color:var(--accent);font-weight:700;background:var(--mark)}
+
+/* library */
+.banner{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:14px;padding:14px;margin-bottom:14px}
+.banner p{margin:0 0 10px}
+.continue{display:block;width:100%;text-align:left;background:var(--accent);color:var(--accent-ink);border:0;border-radius:18px;padding:16px;margin-bottom:16px}
+.continue strong{display:block;font-size:1.15rem;margin:2px 0 8px}
+.continue .pbar{background:color-mix(in srgb,var(--accent-ink) 30%,transparent)}
+.continue .pbar i{background:var(--accent-ink)}
+.chips{display:flex;gap:8px;margin-bottom:12px}
+.chips button{min-height:38px;padding:6px 14px;border-radius:40px}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+ul.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.item{display:flex;align-items:stretch;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.item .open{flex:1;text-align:left;border:0;border-radius:0;background:transparent;padding:14px}
+.item .open b{display:block;font-size:1.05rem;margin-bottom:3px;overflow-wrap:anywhere}
+.item .open span{font-size:.88rem;color:var(--muted)}
+.item .side{display:flex;flex-direction:column;border-left:1px solid var(--line)}
+.item .side button{border:0;border-radius:0;background:transparent;min-height:0;flex:1;padding:6px 14px;font-size:.85rem;color:var(--muted)}
+.item .side button[data-fav]{font-size:1.35rem}
+.item .side button[aria-pressed="true"]{color:var(--hl);font-weight:700}
+.pbar{height:5px;border-radius:5px;background:var(--line);overflow:hidden;margin-top:8px}
+.pbar i{display:block;height:100%;background:var(--accent)}
+.empty{text-align:center;padding:40px 16px;color:var(--muted)}
+
+/* stats */
+.seg{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.seg button{flex:1;border:0;border-radius:0;min-height:42px;padding:6px 8px;background:transparent;font-size:.92rem}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);font-weight:700}
+.nums{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.num{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+.num b{display:block;font-size:1.7rem;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.num span{color:var(--muted);font-size:.9rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+.chart svg{width:100%;height:auto;display:block}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.badge{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;opacity:.5}
+.badge.on{opacity:1;border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.badge .ic{font-size:1.5rem}
+.badge b{display:block;font-size:.95rem;margin-top:4px}
+.badge span{font-size:.8rem;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+td,th{padding:8px 4px;border-bottom:1px solid var(--line);text-align:left;font-size:.92rem}
+th{color:var(--muted);font-weight:400}
+
+/* settings */
+.field{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.row label{font-weight:700}
+input[type=range]{width:100%;accent-color:var(--accent);height:32px;margin-top:6px}
+.switch{appearance:none;-webkit-appearance:none;width:52px;height:30px;border-radius:30px;background:var(--line);position:relative;cursor:pointer;flex:none;margin:0}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--surface);transition:left .15s}
+.switch:checked{background:var(--accent)}
+.switch:checked::after{left:25px}
+.colors{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.colors label{font-weight:400;font-size:.88rem;display:flex;flex-direction:column;gap:6px}
+input[type=color]{width:100%;height:44px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:3px}
+
+/* dialogs */
+dialog{border:0;border-radius:20px;padding:0;background:var(--surface);color:var(--ink);width:min(560px,calc(100% - 24px));max-height:calc(100% - 40px)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.dlg{padding:18px;display:flex;flex-direction:column;gap:10px}
+.dlg h2{margin:0}
+.dlg input[type=text],.dlg textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:1rem}
+.dlg textarea{min-height:180px;resize:vertical}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.actions button{flex:1 1 auto}
+.status{font-size:.9rem;color:var(--muted);min-height:1.2em;margin:0}
+.filebtn{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:1 1 auto;
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;min-height:46px;cursor:pointer}
+.filebtn input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:0}
+.filebtn:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+.filebtn.busy{opacity:.6;pointer-events:none}
+.nlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;max-height:34vh;overflow:auto}
+.nlist li{display:flex;gap:6px}
+.nlist .go{flex:1;text-align:left;font-size:.92rem;min-height:0}
+.nlist .go small{display:block;color:var(--muted)}
+.nlist .x{min-height:0;padding:6px 10px;font-size:.85rem}
+
+/* reader */
+.overlay{position:fixed;inset:0;z-index:20;background:var(--bg);display:flex;flex-direction:column;
+  padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+.rbar{display:flex;align-items:center;gap:6px;padding:8px 10px}
+.rbar .title{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
+.rbar button{min-height:42px;padding:6px 12px;font-size:.9rem}
+.stage{position:relative;flex:1;min-height:0;margin:0 10px;background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;
+  user-select:none;-webkit-user-select:none;touch-action:manipulation;cursor:pointer}
+#rsvp{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.word{display:grid;grid-template-columns:1fr auto 1fr;width:100%;padding:0 10px;
+  font-size:calc(clamp(2rem,10.5vw,3.4rem) * var(--fs,1) * var(--fit,1));font-weight:700;white-space:pre;line-height:1.15;position:relative}
+.word .meas{position:absolute;left:-9999px;top:0;visibility:hidden;white-space:pre}
+.word .l{text-align:right;overflow:hidden}.word .p{color:var(--hl)}.word .r{text-align:left;overflow:hidden}
+.guide{position:absolute;left:50%;width:2px;height:16px;background:var(--hl);opacity:.4;transform:translateX(-50%)}
+.guide.t{top:calc(50% - 3rem * var(--fs,1))}.guide.b{bottom:calc(50% - 3rem * var(--fs,1))}
+#page{position:absolute;inset:0;overflow-y:auto;padding:18px 18px 40vh;font-size:calc(1.2rem * var(--fs,1));line-height:1.7}
+#page p{margin:0 0 1em;max-width:36em}
+#page span{border-radius:4px}
+#page span.cur{background:var(--mark);box-shadow:0 0 0 3px var(--mark)}
+#page b{font-weight:700}
+.hint{position:absolute;left:0;right:0;bottom:14px;text-align:center;color:var(--muted);font-size:.9rem;pointer-events:none;padding:0 12px}
+.hint span{background:var(--surface);padding:4px 10px;border-radius:20px}
+.rfoot{padding:8px 10px 10px;display:flex;flex-direction:column;gap:8px}
+.seek{display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.seek input{margin:0}
+.seek span{white-space:nowrap;min-width:3.2em}
+.seek span:last-child{text-align:right}
+.transport{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:8px}
+.transport .primary{font-size:1.1rem}
+.rrow{display:flex;gap:8px;align-items:center}
+.rrow .seg{flex:1}
+.stepper{display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+.stepper button{border:0;border-radius:0;min-height:42px;padding:4px 14px;background:transparent;font-size:1.2rem}
+.stepper output{min-width:74px;text-align:center;font-variant-numeric:tabular-nums;font-size:.92rem}
+
+/* test */
+.tbody{flex:1;overflow:auto;padding:8px 18px 24px;max-width:640px;width:100%;margin:0 auto}
+.tbody .passage{font-size:calc(1.15rem * var(--fs,1));line-height:1.7}
+.tbody .passage p{margin:0 0 1em}
+.q{margin-bottom:18px}
+.q p{font-weight:700;margin:0 0 8px}
+.q .opts{display:grid;gap:8px}
+.q .opts button{text-align:left}
+.q .opts button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.big{font-size:3rem;font-weight:700;letter-spacing:-.03em;margin:8px 0 0;font-variant-numeric:tabular-nums}
+
+.toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:50;
+  background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:30px;font-size:.92rem;max-width:90%;text-align:center}
+
+/* cronómetro y palabras (v2) */
+.rbar .timer{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 6px;
+  background:transparent;border-color:transparent;font-variant-numeric:tabular-nums;line-height:1.1}
+.timer b{font-size:1.05rem}
+.timer small{font-size:.72rem;color:var(--muted)}
+.timer .tb{display:block;width:72px;height:4px;border-radius:4px;background:var(--line);overflow:hidden}
+.timer .tb i{display:block;height:100%;width:0;background:var(--accent)}
+.timer.near b{color:var(--hl)}
+#rWord{border-color:var(--hl);color:var(--hl);font-weight:700}
+.stitle{position:absolute;top:12px;left:16px;right:16px;text-align:center;color:var(--muted);font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+.wchips{display:flex;flex-wrap:wrap;gap:8px}
+.wchips button{min-height:48px;padding:8px 16px;border-radius:40px;font-size:1.15rem}
+.wchips button.now{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);font-weight:700}
+.rest{align-items:center;justify-content:center;text-align:center;gap:14px;padding:24px}
+.rest .clock{font-size:clamp(4rem,22vw,7rem);font-weight:700;letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1}
+.rest p{margin:0;max-width:22em;color:var(--muted)}
+.rest h2{margin:0;font-size:1.5rem}
+.rest .actions{width:min(360px,100%)}
+.wl .word-row{display:flex;align-items:stretch;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.wl .wmain{flex:1;padding:12px 14px;min-width:0}
+.wl .wmain b{display:block;font-size:1.35rem}
+.wl .wmain q{display:block;quotes:none;font-size:.92rem;color:var(--muted);margin-top:4px}
+.wl .wmain q mark{background:var(--mark);color:var(--ink);border-radius:3px;padding:0 2px}
+.wl .wmain small{display:block;font-size:.78rem;color:var(--muted);margin-top:6px}
+.wl .side{display:flex;flex-direction:column;border-left:1px solid var(--line)}
+.wl .side button{border:0;border-radius:0;background:transparent;min-height:0;flex:1;padding:6px 12px;font-size:.85rem;color:var(--muted)}
+.card-p{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;flex:1;padding:20px}
+.card-p .big-w{font-size:clamp(2.6rem,14vw,4.5rem);font-weight:700;letter-spacing:-.02em;overflow-wrap:anywhere}
+.card-p q{quotes:none;font-size:1.15rem;max-width:26em;color:var(--muted)}
+.card-p q mark{background:var(--mark);color:var(--ink);border-radius:3px;padding:0 2px}
+.pfoot{padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.urlrow{display:flex;gap:8px}
+.urlrow input{flex:1;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:1rem}
+.field input[type=text],.field input[type=url]{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px;font-size:.95rem;margin-top:8px}
+.sub{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.sub .seg{flex:0 0 200px}
+@media (prefers-reduced-motion: reduce){.switch::after{transition:none}}
+</style>
+</head>
+<body class="t-auto">
+
+<main id="app">
+  <!-- Biblioteca -->
+  <section id="v-lib">
+    <div class="top"><h1>Biblioteca</h1><button class="primary" id="addBtn" type="button">Añadir texto</button></div>
+    <div class="banner" id="testBanner" hidden>
+      <p>Mide tu velocidad de lectura actual para empezar con el ritmo adecuado.</p>
+      <button class="primary" type="button" data-test>Hacer el test (2 min)</button>
+    </div>
+    <div id="continueWrap"></div>
+    <div class="chips" role="group" aria-label="Filtro">
+      <button type="button" data-f="all" aria-pressed="true">Todos</button>
+      <button type="button" data-f="fav" aria-pressed="false">Favoritos</button>
+    </div>
+    <ul class="list" id="libList"></ul>
+  </section>
+
+  <!-- Progreso -->
+  <section id="v-stats" hidden>
+    <div class="top"><h1>Progreso</h1><button type="button" data-test>Test de velocidad</button></div>
+    <div class="seg" role="group" aria-label="Periodo" id="periodSeg">
+      <button type="button" data-p="day" aria-pressed="false">Hoy</button>
+      <button type="button" data-p="week" aria-pressed="true">Semana</button>
+      <button type="button" data-p="month" aria-pressed="false">Mes</button>
+      <button type="button" data-p="all" aria-pressed="false">Total</button>
+    </div>
+    <div class="nums">
+      <div class="num"><b id="sWords">0</b><span>palabras leídas</span></div>
+      <div class="num"><b id="sTime">0 min</b><span>tiempo de lectura</span></div>
+      <div class="num"><b id="sWpm">–</b><span>velocidad media (ppm)</span></div>
+      <div class="num"><b id="sStreak">0</b><span>días seguidos</span></div>
+    </div>
+    <h2>Últimos 7 días</h2>
+    <div class="card chart" id="chart"></div>
+    <h2>Tests de velocidad</h2>
+    <div class="card" id="testsBox"></div>
+    <h2 id="badgeTitle">Logros</h2>
+    <div class="badges" id="badges"></div>
+  </section>
+
+  <!-- Palabras -->
+  <section id="v-words" hidden>
+    <div class="top"><h1>Palabras</h1><button class="primary" id="practBtn" type="button">Repasar</button></div>
+    <div class="chips" role="group" aria-label="Filtro de palabras" id="wFilter">
+      <button type="button" data-w="todo" aria-pressed="true">Por aprender</button>
+      <button type="button" data-w="done" aria-pressed="false">Aprendidas</button>
+    </div>
+    <ul class="list wl" id="wList"></ul>
+  </section>
+
+  <!-- Ajustes -->
+  <section id="v-settings" hidden>
+    <div class="top"><h1>Ajustes</h1></div>
+    <div class="field">
+      <div class="row"><label for="setWpm">Velocidad</label><span class="muted" id="setWpmVal"></span></div>
+      <input type="range" id="setWpm" min="50" max="1000" step="25">
+    </div>
+    <div class="field">
+      <div class="row"><label id="lblChunk">Palabras a la vez</label>
+        <div class="seg" role="group" aria-labelledby="lblChunk" id="setChunk" style="flex:0 0 150px">
+          <button type="button" data-n="1">1</button><button type="button" data-n="2">2</button><button type="button" data-n="3">3</button>
+        </div></div>
+      <p class="muted" style="margin:8px 0 0;font-size:.88rem">Se aplica en los modos RSVP, Palabra y Biónica.</p>
+    </div>
+    <div class="field">
+      <label id="lblMode">Modo de lectura</label>
+      <div class="seg" role="group" aria-labelledby="lblMode" id="setMode" style="margin-top:8px"></div>
+      <p class="muted" id="modeDesc" style="margin:8px 0 0;font-size:.88rem"></p>
+    </div>
+    <div class="field"><div class="row"><label for="setPunct">Pausar en puntuación y párrafos</label><input type="checkbox" class="switch" id="setPunct"></div></div>
+    <div class="field">
+      <div class="row"><label for="setFont">Tamaño de letra</label><span class="muted" id="setFontVal"></span></div>
+      <input type="range" id="setFont" min="70" max="160" step="10">
+    </div>
+    <div class="field">
+      <label id="lblTheme">Tema</label>
+      <div class="seg" role="group" aria-labelledby="lblTheme" id="setTheme" style="margin-top:8px">
+        <button type="button" data-t="auto">Auto</button><button type="button" data-t="light">Claro</button>
+        <button type="button" data-t="dark">Oscuro</button><button type="button" data-t="sepia">Sepia</button>
+        <button type="button" data-t="custom">Propio</button>
+      </div>
+      <div class="colors" id="customColors" hidden>
+        <label>Fondo<input type="color" id="cBg"></label>
+        <label>Texto<input type="color" id="cFg"></label>
+        <label>Resalte<input type="color" id="cHl"></label>
+      </div>
+    </div>
+    <div class="field">
+      <div class="row"><label for="setBlocks">Bloques de lectura con descanso</label><input type="checkbox" class="switch" id="setBlocks"></div>
+      <div class="sub"><span id="lblBlk">Leer</span><div class="seg" role="group" aria-labelledby="lblBlk" id="setBlk">
+        <button type="button" data-v="5">5</button><button type="button" data-v="10">10</button><button type="button" data-v="15">15</button><button type="button" data-v="20">20</button></div></div>
+      <div class="sub"><span id="lblRest">Descansar</span><div class="seg" role="group" aria-labelledby="lblRest" id="setRest">
+        <button type="button" data-v="2">2</button><button type="button" data-v="3">3</button><button type="button" data-v="5">5</button><button type="button" data-v="10">10</button></div></div>
+      <div class="sub"><label for="setSound" style="font-weight:400">Sonido y vibración al cambiar</label><input type="checkbox" class="switch" id="setSound"></div>
+      <p class="muted" style="margin:10px 0 0;font-size:.88rem">Minutos. El cronómetro solo avanza mientras se lee; al llegar al tiempo, la lectura se pausa y empieza el descanso.</p>
+    </div>
+    <div class="field">
+      <label>Copia de seguridad</label>
+      <p class="muted" style="margin:6px 0 10px;font-size:.9rem">Todo se guarda solo en este dispositivo. Crea una copia para pasarla a otro móvil: incluye textos, progreso, notas y palabras.</p>
+      <div class="actions">
+        <button type="button" id="expBtn">Crear copia</button>
+        <label class="filebtn" id="impLbl">Cargar copia<input type="file" id="impIn" aria-label="Elegir copia de seguridad"></label>
+      </div>
+      <p class="status" id="bkStatus"></p>
+    </div>
+    <div class="field">
+      <label for="setProxy">Servidor para leer enlaces (opcional)</label>
+      <p class="muted" style="margin:6px 0 0;font-size:.88rem">Déjalo vacío para usar los servicios gratuitos. Si tienes tu propio intermediario, escribe su dirección; usa {url} donde vaya el enlace.</p>
+      <input type="url" id="setProxy" placeholder="https://mi-proxy.workers.dev/?url={url}">
+    </div>
+    <div class="field">
+      <label>Datos</label>
+      <button type="button" id="wipe" style="width:100%;margin-top:8px">Borrar todos los datos</button>
+    </div>
+  </section>
+</main>
+
+<nav class="tabs" aria-label="Secciones">
+  <button type="button" data-v="lib" aria-current="page">Biblioteca</button>
+  <button type="button" data-v="words">Palabras</button>
+  <button type="button" data-v="stats">Progreso</button>
+  <button type="button" data-v="settings">Ajustes</button>
+</nav>
+
+<!-- Lector -->
+<div class="overlay" id="reader" hidden>
+  <div class="rbar">
+    <button type="button" id="rClose">Cerrar</button>
+    <button type="button" class="timer" id="rTimer" aria-label="Cronómetro de lectura"><b id="tmNow">0:00</b><small id="tmSub">leyendo</small><span class="tb"><i id="tmBar"></i></span></button>
+    <button type="button" id="rWord">Palabra</button>
+    <button type="button" id="rNotes">Notas</button>
+  </div>
+  <div class="stage" id="stage" tabindex="0" aria-label="Lector. Toca para leer o pausar">
+    <div id="rsvp"><div class="stitle" id="rTitle"></div><span class="guide t"></span><span class="guide b"></span>
+      <div class="word"><span class="l" id="wl"></span><span class="p" id="wp"></span><span class="r" id="wr"></span><span class="meas" id="wm" aria-hidden="true"></span></div></div>
+    <div id="page" hidden></div>
+    <div class="hint" id="rHint"><span>Toca para empezar</span></div>
+  </div>
+  <div class="rfoot">
+    <div class="seek"><span id="rPct">0%</span><input type="range" id="rSeek" min="0" max="0" value="0" aria-label="Posición"><span id="rLeft">0 min</span></div>
+    <div class="transport">
+      <button type="button" id="rBack">Atrás 10</button>
+      <button type="button" id="rPlay" class="primary">Leer</button>
+      <button type="button" id="rFwd">Adelante 10</button>
+    </div>
+    <div class="rrow"><div class="seg" role="group" aria-label="Modo" id="rMode"></div></div>
+    <div class="rrow">
+      <div class="stepper" aria-label="Velocidad"><button type="button" id="wDown" aria-label="Más lento">−</button><output id="wOut"></output><button type="button" id="wUp" aria-label="Más rápido">+</button></div>
+      <div class="stepper" aria-label="Palabras a la vez" id="chunkStep"><button type="button" id="cDown" aria-label="Menos palabras">−</button><output id="cOut"></output><button type="button" id="cUp" aria-label="Más palabras">+</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- Test -->
+<div class="overlay" id="test" hidden>
+  <div class="rbar"><button type="button" id="tClose">Cerrar</button><div class="title">Test de velocidad</div></div>
+  <div class="tbody" id="tBody"></div>
+</div>
+
+<!-- Añadir -->
+<dialog id="dlgAdd"><div class="dlg">
+  <h2>Añadir texto</h2>
+  <input type="text" id="addTitle" placeholder="Título (opcional)">
+  <div class="urlrow"><input type="url" id="addUrl" inputmode="url" placeholder="Pega un enlace (https://…)" aria-label="Enlace de una página"><button type="button" id="addUrlGo">Traer</button></div>
+  <textarea id="addText" placeholder="Escribe o pega el texto aquí."></textarea>
+  <div class="actions">
+    <button type="button" id="addPaste">Pegar</button>
+    <label class="filebtn" id="addFile">Archivo<input type="file" id="fileIn" aria-label="Elegir archivo"></label>
+    <label class="filebtn" id="addPhoto" hidden>Foto (OCR)<input type="file" id="photoIn" accept="image/*" aria-label="Elegir foto"></label>
+  </div>
+  <p class="status" id="addStatus">Archivos: txt, pdf, docx, pptx, epub.</p>
+  <div class="actions"><button type="button" id="addCancel">Cancelar</button><button type="button" class="primary" id="addSave">Guardar y leer</button></div>
+</div></dialog>
+
+<!-- Notas y marcadores -->
+<dialog id="dlgNotes"><div class="dlg">
+  <h2>Marcadores y notas</h2>
+  <button type="button" id="rMark">Marcar este punto</button>
+  <ul class="nlist" id="markList"></ul>
+  <textarea id="noteText" placeholder="Escribe una nota sobre este punto del texto." style="min-height:90px"></textarea>
+  <div class="actions"><button type="button" id="notesClose">Cerrar</button><button type="button" class="primary" id="noteSave">Guardar nota</button></div>
+</div></dialog>
+
+<!-- Palabra nueva -->
+<dialog id="dlgWord"><div class="dlg">
+  <h2>¿Qué palabra no conoces?</h2>
+  <div class="wchips" id="wordChips"></div>
+  <div class="actions"><button type="button" id="wordClose">Cancelar</button></div>
+</div></dialog>
+
+<!-- Descanso -->
+<div class="overlay rest" id="rest" hidden>
+  <h2 id="restTitle">Descanso</h2>
+  <div class="clock" id="restClock">3:00</div>
+  <p id="restMsg"></p>
+  <div class="actions"><button type="button" id="restSkip">Terminar descanso</button><button type="button" class="primary" id="restGo" hidden>Seguir leyendo</button></div>
+  <button type="button" class="ghost" id="restExit">Salir del lector</button>
+</div>
+
+<!-- Repaso de palabras -->
+<div class="overlay" id="practice" hidden>
+  <div class="rbar"><button type="button" id="pClose">Cerrar</button><div class="title" id="pCount"></div><button type="button" id="pSpeak">Escuchar</button></div>
+  <div class="card-p" id="pCard"></div>
+  <div class="pfoot"><button type="button" id="pAgain">Otra vez</button><button type="button" class="primary" id="pKnow">La sé</button></div>
+</div>
+
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script>
+(function(){
+'use strict';
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const dayKey = t => { const d=new Date(t); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
+const fmtN = n => Math.round(n).toLocaleString('es-ES');
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function fmtMin(ms){ const m=Math.round(ms/60000); if(m<60) return m+' min'; return Math.floor(m/60)+' h '+(m%60)+' min'; }
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.hidden=false; clearTimeout(toast.h); toast.h=setTimeout(()=>t.hidden=true,2200); }
+
+/* ---------- almacenamiento (IndexedDB con respaldo en memoria) ---------- */
+const mem = new Map();
+const DB = {
+  db:null,
+  open(){ return new Promise(res=>{ try{ const r=indexedDB.open('lectura-rapida',1);
+    r.onupgradeneeded=()=>r.result.createObjectStore('kv');
+    r.onsuccess=()=>{ this.db=r.result; res(); }; r.onerror=()=>res(); }catch(e){ res(); } }); },
+  get(k){ if(!this.db) return Promise.resolve(mem.get(k));
+    return new Promise(res=>{ try{ const q=this.db.transaction('kv').objectStore('kv').get(k); q.onsuccess=()=>res(q.result); q.onerror=()=>res(undefined);}catch(e){res(undefined);} }); },
+  set(k,v){ if(!this.db){ mem.set(k,v); return Promise.resolve(); }
+    return new Promise(res=>{ try{ const tx=this.db.transaction('kv','readwrite'); tx.objectStore('kv').put(v,k); tx.oncomplete=res; tx.onerror=res;}catch(e){res();} }); },
+  del(k){ if(!this.db){ mem.delete(k); return Promise.resolve(); }
+    return new Promise(res=>{ try{ const tx=this.db.transaction('kv','readwrite'); tx.objectStore('kv').delete(k); tx.oncomplete=res; tx.onerror=res;}catch(e){res();} }); },
+  clear(){ if(!this.db){ mem.clear(); return Promise.resolve(); }
+    return new Promise(res=>{ try{ const tx=this.db.transaction('kv','readwrite'); tx.objectStore('kv').clear(); tx.oncomplete=res; tx.onerror=res;}catch(e){res();} }); }
+};
+
+const DEF = {wpm:300, chunk:1, mode:'rsvp', punct:true, font:100, theme:'auto', custom:{bg:'#FFFDF7',fg:'#1D1D1D',hl:'#E0335B'}, testDone:false,
+  blocks:true, blockMin:10, restMin:3, sound:true, proxy:''};
+let set = JSON.parse(JSON.stringify(DEF)), lib = [], sessions = [], tests = [], words = [];
+const saveWords = () => DB.set('words', words);
+const saveSet = () => DB.set('settings', set);
+const saveLib = () => DB.set('lib', lib);
+const saveSessions = () => DB.set('sessions', sessions);
+const saveTests = () => DB.set('tests', tests);
+
+const MODES = [
+  {id:'rsvp',   name:'RSVP',    desc:'Una palabra cada vez en el mismo sitio, con la letra de enfoque resaltada.'},
+  {id:'word',   name:'Palabra', desc:'Texto completo con la palabra actual resaltada, avanzando a tu ritmo.'},
+  {id:'line',   name:'Línea',   desc:'Texto completo, resaltando línea a línea para leer en bloque.'},
+  {id:'bionic', name:'Biónica', desc:'Primera mitad de cada palabra en negrita para guiar la vista.'}
+];
+
+const SAMPLE_TITLE = 'Cómo sacar partido a esta app';
+const SAMPLE = `La lectura rápida no consiste en saltarse palabras, sino en reducir el tiempo que los ojos pierden moviéndose por la página. Cuando lees de forma tradicional, tu mirada salta de un punto a otro, retrocede sin que te des cuenta y se detiene más de lo necesario.
+
+El modo RSVP muestra una palabra cada vez, siempre en el mismo lugar. La letra en color marca el punto donde tu ojo debería fijarse, de modo que no tienes que buscarlo. Así el esfuerzo se dedica a entender, no a desplazarte.
+
+Si prefieres ver el texto completo, prueba el modo Palabra, que resalta cada palabra dentro del párrafo, o el modo Línea, que te empuja a leer bloques enteros de una vez. El modo Biónica pone en negrita el comienzo de cada palabra para que la vista se ancle con menos esfuerzo.
+
+Empieza a una velocidad cómoda y sube de veinticinco en veinticinco. Si notas que dejas de comprender, baja un poco: la meta es leer más rápido sin perder el hilo. Diez o quince minutos al día bastan para notar la diferencia.`;
+
+/* ---------- utilidades de texto ---------- */
+function tokenize(text){
+  const words=[], parEnd=new Set();
+  String(text||'').split(/\n\s*\n/).forEach(par=>{
+    const w=par.split(/\s+/).filter(Boolean);
+    if(!w.length) return;
+    for(const x of w) words.push(x);
+    parEnd.add(words.length-1);
+  });
+  return {words, parEnd};
+}
+const countWords = t => (String(t).match(/\S+/g)||[]).length;
+const isLetter = c => /[\p{L}\p{N}]/u.test(c);
+function pivotIndex(chars){
+  const first=chars.findIndex(isLetter);
+  if(first<0) return Math.floor(chars.length/2);
+  let last=chars.length-1; while(last>first && !isLetter(chars[last])) last--;
+  const n=last-first+1;
+  let k = chars.includes(' ') ? Math.floor(n*0.45) : (n<=1?0 : n<=5?1 : n<=9?2 : n<=13?3 : 4);
+  let idx=first+k; while(idx<last && !isLetter(chars[idx])) idx++;
+  return idx;
+}
+function bionic(w){
+  const chars=Array.from(w); const letters=chars.filter(isLetter).length;
+  let boldN = letters<=3 ? 1 : Math.ceil(letters*0.5), seen=0, cut=0;
+  for(let i=0;i<chars.length;i++){ if(isLetter(chars[i])){ seen++; if(seen===boldN){ cut=i+1; break; } } }
+  return '<b>'+esc(chars.slice(0,cut).join(''))+'</b>'+esc(chars.slice(cut).join(''));
+}
+
+/* ---------- navegación ---------- */
+function showView(v){
+  ['lib','words','stats','settings'].forEach(x=>$('v-'+x).hidden = x!==v);
+  document.querySelectorAll('nav.tabs button').forEach(b=>{ if(b.dataset.v===v) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
+  if(v==='lib') renderLib(); if(v==='words') renderWords(); if(v==='stats') renderStats(); if(v==='settings') renderSettings();
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>showView(b.dataset.v));
+
+/* ---------- tema ---------- */
+function applyTheme(){
+  const b=document.body;
+  b.className = b.className.replace(/\bt-\w+/g,'').trim();
+  b.classList.add('t-'+set.theme);
+  if(set.theme==='custom'){ b.style.setProperty('--bg',set.custom.bg); b.style.setProperty('--ink',set.custom.fg); b.style.setProperty('--hl',set.custom.hl); }
+  else ['--bg','--ink','--hl'].forEach(p=>b.style.removeProperty(p));
+  document.documentElement.style.background = getComputedStyle(b).getPropertyValue('--bg');
+  document.documentElement.style.setProperty('--fs', set.font/100);
+}
+
+/* ---------- biblioteca ---------- */
+let libFilter='all';
+document.querySelectorAll('.chips button').forEach(b=>b.onclick=()=>{
+  libFilter=b.dataset.f; document.querySelectorAll('.chips button').forEach(x=>x.setAttribute('aria-pressed', String(x===b))); renderLib();
+});
+function remainingMin(item){ return Math.max(0,item.words-item.pos)/set.wpm; }
+function renderLib(){
+  $('testBanner').hidden = set.testDone;
+  const last = lib.filter(x=>x.pos>0 && x.pos<x.words).sort((a,b)=>b.opened-a.opened)[0];
+  $('continueWrap').innerHTML = last ? `<button type="button" class="continue" data-open="${last.id}"><span>Continuar leyendo</span>
+    <strong>${esc(last.title)}</strong><span>${Math.round(last.pos/last.words*100)}% · quedan ${Math.max(1,Math.round(remainingMin(last)))} min</span>
+    <div class="pbar"><i style="width:${last.pos/last.words*100}%"></i></div></button>` : '';
+  const items = lib.filter(x=>libFilter==='all'||x.fav).sort((a,b)=>(b.opened||b.created)-(a.opened||a.created));
+  if(!items.length){
+    $('libList').innerHTML = `<li class="empty">${libFilter==='fav' ? 'Marca un texto con la estrella para verlo aquí.' : 'Tu biblioteca está vacía. Añade un texto para empezar.'}</li>`;
+    return;
+  }
+  $('libList').innerHTML = items.map(x=>{
+    const pct = x.words ? Math.round(Math.min(x.pos,x.words)/x.words*100) : 0;
+    const status = pct>=100 ? 'Terminado' : pct+'%';
+    return `<li class="item"><button type="button" class="open" data-open="${x.id}"><b>${esc(x.title)}</b>
+      <span>${fmtN(x.words)} palabras · ${status}${x.notes.length?' · '+x.notes.length+' notas':''}</span>
+      <div class="pbar"><i style="width:${pct}%"></i></div></button>
+      <div class="side"><button type="button" data-fav="${x.id}" aria-pressed="${x.fav}" aria-label="Favorito">${x.fav?'★':'☆'}</button>
+      <button type="button" data-del="${x.id}">Borrar</button></div></li>`;
+  }).join('');
+}
+document.addEventListener('click',e=>{
+  const o=e.target.closest('[data-open]'); if(o){ openReader(o.dataset.open); return; }
+  const f=e.target.closest('[data-fav]'); if(f){ const x=lib.find(i=>i.id===f.dataset.fav); if(x){ x.fav=!x.fav; saveLib(); renderLib(); } return; }
+  const d=e.target.closest('[data-del]'); if(d){ const x=lib.find(i=>i.id===d.dataset.del);
+    if(x && confirm(`¿Borrar "${x.title}"?`)){ lib=lib.filter(i=>i!==x); DB.del('t:'+x.id); saveLib(); renderLib(); } return; }
+  if(e.target.closest('[data-test]')) openTest();
+});
+
+async function addText(title, text){
+  const words=countWords(text);
+  const item={id:uid(), title:title||text.trim().split(/\s+/).slice(0,6).join(' '), words, pos:0, fav:false, created:Date.now(), opened:0, marks:[], notes:[]};
+  await DB.set('t:'+item.id, text);
+  lib.unshift(item); await saveLib();
+  return item;
+}
+
+/* ---------- añadir: pegar, archivos, foto ---------- */
+const dlgAdd=$('dlgAdd');
+$('addBtn').onclick=()=>{ $('addUrl').value=''; $('addTitle').value=''; $('addText').value=''; $('addStatus').textContent='Archivos: txt, pdf, docx, pptx, epub.'; dlgAdd.showModal(); $('addTitle').blur(); };
+$('addCancel').onclick=()=>dlgAdd.close();
+$('addSave').onclick=async()=>{
+  const t=$('addText').value.trim();
+  if(!t){ $('addStatus').textContent='Añade algo de texto antes de guardar.'; $('addText').focus(); return; }
+  const item=await addText($('addTitle').value.trim(), t);
+  dlgAdd.close(); renderLib(); openReader(item.id);
+};
+$('addPaste').onclick=async()=>{
+  try{ const t=await navigator.clipboard.readText(); if(t){ $('addText').value=t; $('addStatus').textContent='Texto pegado.'; } else $('addText').focus(); }
+  catch(e){ $('addText').focus(); $('addStatus').textContent='Mantén pulsado el cuadro de texto y elige Pegar.'; }
+};
+
+const libs={};
+function loadScript(src){ if(libs[src]) return libs[src];
+  return libs[src]=new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=()=>{ delete libs[src]; rej(new Error('script')); }; document.head.appendChild(s); }); }
+const CDN={
+  pdf:'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
+  pdfWorker:'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js',
+  mammoth:'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js',
+  jszip:'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'
+};
+async function readPdf(buf){
+  await loadScript(CDN.pdf); await loadScript(CDN.pdfWorker); const lib=window.pdfjsLib; lib.GlobalWorkerOptions.workerSrc=CDN.pdfWorker;
+  const doc=await lib.getDocument({data:buf}).promise; const out=[];
+  for(let p=1;p<=doc.numPages;p++){
+    $('addStatus').textContent=`Leyendo página ${p} de ${doc.numPages}…`;
+    const c=await (await doc.getPage(p)).getTextContent(); let line='', lastY=null, txt='';
+    for(const it of c.items){ const y=it.transform?it.transform[5]:null;
+      if(lastY!==null && y!==null && Math.abs(y-lastY)>(it.height||10)*1.8){ txt+=line.trim()+'\n\n'; line=''; }
+      line+=it.str+(it.hasEOL?' ':''); if(!it.hasEOL && it.str && !/\s$/.test(it.str)) line+=' '; lastY=y; }
+    txt+=line.trim(); out.push(txt.replace(/[ \t]+/g,' ').replace(/(\w)- (\w)/g,'$1$2'));
+  }
+  return out.join('\n\n');
+}
+async function readDocx(buf){ await loadScript(CDN.mammoth); const r=await window.mammoth.extractRawText({arrayBuffer:buf}); return r.value; }
+function xmlText(str,type){ return new DOMParser().parseFromString(str,type||'application/xml'); }
+async function readPptx(buf){
+  await loadScript(CDN.jszip); const zip=await window.JSZip.loadAsync(buf);
+  const slides=Object.keys(zip.files).filter(n=>/^ppt\/slides\/slide\d+\.xml$/.test(n)).sort((a,b)=>parseInt(a.match(/\d+/)[0])-parseInt(b.match(/\d+/)[0]));
+  const out=[];
+  for(const s of slides){ const doc=xmlText(await zip.file(s).async('string'));
+    const paras=[...doc.getElementsByTagName('a:p')].map(p=>[...p.getElementsByTagName('a:t')].map(t=>t.textContent).join('')).filter(x=>x.trim());
+    if(paras.length) out.push(paras.join('\n\n')); }
+  return out.join('\n\n');
+}
+async function readEpub(buf){
+  await loadScript(CDN.jszip); const zip=await window.JSZip.loadAsync(buf);
+  const cont=xmlText(await zip.file('META-INF/container.xml').async('string'));
+  const opfPath=cont.getElementsByTagName('rootfile')[0].getAttribute('full-path');
+  const base=opfPath.includes('/')?opfPath.slice(0,opfPath.lastIndexOf('/')+1):'';
+  const opf=xmlText(await zip.file(opfPath).async('string'));
+  const man={}; [...opf.getElementsByTagName('item')].forEach(i=>man[i.getAttribute('id')]=i.getAttribute('href'));
+  const spine=[...opf.getElementsByTagName('itemref')].map(i=>man[i.getAttribute('idref')]).filter(Boolean);
+  const out=[];
+  for(let k=0;k<spine.length;k++){
+    $('addStatus').textContent=`Leyendo capítulo ${k+1} de ${spine.length}…`;
+    const path=decodeURIComponent(base+spine[k].split('#')[0]); const f=zip.file(path); if(!f) continue;
+    const html=xmlText(await f.async('string'),'text/html');
+    const blocks=[...html.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,blockquote,pre')].filter(el=>!el.querySelector('p,li,blockquote'));
+    const txt = blocks.length ? blocks.map(el=>el.textContent.replace(/\s+/g,' ').trim()).filter(Boolean).join('\n\n') : (html.body?html.body.textContent.trim():'');
+    if(txt) out.push(txt);
+  }
+  return out.join('\n\n');
+}
+$('fileIn').onchange=async e=>{
+  const f=e.target.files[0]; e.target.value=''; if(!f) return;
+  const name=f.name||'archivo';
+  $('addStatus').textContent='Leyendo '+name+'…'; $('addFile').classList.add('busy');
+  let stage='leer el archivo';
+  try{
+    const buf=await f.arrayBuffer();
+    const kind=await detectKind(name,f.type,buf);
+    let text='';
+    if(kind==='pdf'){ stage='descargar el lector de PDF'; text=await readPdf(buf); }
+    else if(kind==='docx'){ stage='descargar el lector de Word'; text=await readDocx(buf); }
+    else if(kind==='pptx'){ stage='descargar el lector de PowerPoint'; text=await readPptx(buf); }
+    else if(kind==='epub'){ stage='descargar el lector de EPUB'; text=await readEpub(buf); }
+    else if(kind==='text') text=decodeText(buf);
+    else { $('addStatus').textContent='Formato no compatible: '+name+'. Usa txt, pdf, docx, pptx o epub.'; return; }
+    text=text.replace(/\r/g,'').trim();
+    if(!text){ $('addStatus').textContent='No se encontró texto en '+name+'. Si es un PDF escaneado, usa Foto.'; return; }
+    $('addText').value=text;
+    if(!$('addTitle').value) $('addTitle').value=name.replace(/\.[^.]+$/,'');
+    $('addStatus').textContent=`${fmtN(countWords(text))} palabras importadas.`;
+  }catch(err){
+    const detail = err && err.message==='script' ? 'No se pudo '+stage+'; revisa tu conexión a internet.' : 'Error al '+stage+(err&&err.message?' ('+err.message+')':'')+'.';
+    $('addStatus').textContent='No se pudo leer '+name+'. '+detail;
+  }finally{ $('addFile').classList.remove('busy'); }
+};
+async function detectKind(name,type,buf){
+  const ext=(name.split('.').pop()||'').toLowerCase(), b=new Uint8Array(buf.slice(0,4));
+  if(ext==='pdf' || type==='application/pdf' || (b[0]===0x25&&b[1]===0x50&&b[2]===0x44&&b[3]===0x46)) return 'pdf';
+  if(['docx','pptx','epub'].includes(ext)) return ext;
+  if(b[0]===0x50&&b[1]===0x4B){ // zip: mirar dentro
+    await loadScript(CDN.jszip); const z=await window.JSZip.loadAsync(buf);
+    if(z.file('word/document.xml')) return 'docx';
+    if(z.file('ppt/presentation.xml')) return 'pptx';
+    if(z.file('META-INF/container.xml')) return 'epub';
+    return 'unknown';
+  }
+  if(/^(txt|md|text|csv|html?|rtf|srt)$/.test(ext) || /^text\//.test(type) || !ext || ext===name.toLowerCase()) return 'text';
+  // último intento: ¿parece texto?
+  const sample=new Uint8Array(buf.slice(0,2000)); let bad=0; for(const c of sample) if(c<9||(c>13&&c<32)) bad++;
+  return bad<sample.length*0.02 ? 'text' : 'unknown';
+}
+function decodeText(buf){
+  let t=new TextDecoder('utf-8').decode(buf);
+  if((t.match(/\uFFFD/g)||[]).length>3){ try{ t=new TextDecoder('windows-1252').decode(buf); }catch(e){} }
+  if(/<(html|body|p)[\s>]/i.test(t.slice(0,3000))){ const d=new DOMParser().parseFromString(t,'text/html');
+    t=[...d.querySelectorAll('h1,h2,h3,h4,p,li,blockquote')].map(x=>x.textContent.replace(/\s+/g,' ').trim()).filter(Boolean).join('\n\n') || (d.body?d.body.textContent:t); }
+  return t.replace(/^\uFEFF/,'');
+}
+
+let sampleFn=null;
+(async()=>{ try{ if(window.claude && typeof claude.use==='function'){
+  const s=await claude.use('sample'); if(!s) return;
+  const lim=await s.limits().catch(()=>null);
+  if(lim && lim.images){ sampleFn=s; $('addPhoto').hidden=false; $('photoIn').accept=lim.images.mediaTypes.join(','); }
+}}catch(e){} })();
+$('photoIn').onchange=async e=>{
+  const f=e.target.files[0]; e.target.value=''; if(!f||!sampleFn) return;
+  $('addStatus').textContent='Leyendo el texto de la foto… puede tardar unos segundos.'; $('addPhoto').classList.add('busy');
+  try{
+    const {text}=await sampleFn('La imagen es una foto de una página de texto. Transcribe exactamente el texto que aparece, en su idioma original, sin traducir ni comentar. Separa los párrafos con una línea en blanco y une las palabras cortadas por guion al final de línea. Responde solo con el texto transcrito; si no hay texto, no respondas nada.', {images:f});
+    const t=(text||'').trim();
+    if(!t){ $('addStatus').textContent='No se detectó texto en la foto.'; return; }
+    const cur=$('addText').value.trim(); $('addText').value = cur ? cur+'\n\n'+t : t;
+    $('addStatus').textContent=`${fmtN(countWords(t))} palabras leídas de la foto.`;
+  }catch(err){
+    const m={not_granted:'Has denegado el permiso para leer fotos.',rate_limited:'Demasiadas peticiones. Espera un momento y vuelve a intentarlo.',image_rejected:'La imagen no es válida o es demasiado grande.'};
+    $('addStatus').textContent=m[err&&err.code]||'No se pudo leer la foto.';
+  }finally{ $('addPhoto').classList.remove('busy'); }
+};
+
+/* ---------- lector ---------- */
+const R={item:null,words:[],parEnd:new Set(),i:0,shown:0,playing:false,timer:null,lock:null,
+  pageStart:-1,pageEnd:-1,pageMode:'',spans:null,lines:null,sessT:0,sessW:0};
+const pageEl=$('page'), stage=$('stage');
+let pushed=false;
+
+async function openReader(id){
+  const item=lib.find(x=>x.id===id); if(!item) return;
+  const text=await DB.get('t:'+id)||'';
+  const t=tokenize(text); R.words=t.words; R.parEnd=t.parEnd; R.item=item;
+  R.i=Math.min(item.pos||0,R.words.length); R.shown=R.i; R.pageStart=-1;
+  item.opened=Date.now(); saveLib();
+  $('rTitle').textContent=item.title;
+  $('rSeek').max=Math.max(0,R.words.length-1);
+  $('reader').hidden=false; document.body.classList.add('lock');
+  try{ history.pushState({reader:1},''); pushed=true; }catch(e){ pushed=false; }
+  syncReaderControls(); renderReader(); renderTimer(); stage.focus({preventScroll:true});
+}
+function doCloseReader(){
+  if(R.playing) pause(); persistPos(); closeRest();
+  $('reader').hidden=true; document.body.classList.remove('lock');
+  renderLib();
+}
+$('rClose').onclick=()=>{ if(pushed){ pushed=false; history.back(); } else doCloseReader(); };
+window.addEventListener('popstate',()=>{ if(!$('reader').hidden){ pushed=false; doCloseReader(); } });
+
+function persistPos(){ if(!R.item) return; R.item.pos=Math.min(R.i,R.words.length); saveLib(); }
+
+function syncReaderControls(){
+  $('rMode').innerHTML=MODES.map(m=>`<button type="button" data-m="${m.id}" aria-pressed="${set.mode===m.id}">${m.name}</button>`).join('');
+  $('wOut').textContent=set.wpm+' ppm';
+  $('cOut').textContent=set.chunk+(set.chunk===1?' palabra':' palabras');
+  $('chunkStep').hidden = set.mode==='line';
+  document.documentElement.style.setProperty('--fs', set.font/100);
+}
+
+function show(text){
+  const chars=Array.from(text); const wl=$('wl'),wp=$('wp'),wr=$('wr');
+  if(!chars.length){ wl.textContent=wp.textContent=wr.textContent=''; return; }
+  const p=pivotIndex(chars);
+  wl.textContent=chars.slice(0,p).join(''); wp.textContent=chars[p]; wr.textContent=chars.slice(p+1).join('');
+  fitWord();
+}
+/* reduce la letra solo cuando la palabra no cabe a los lados de la letra de enfoque */
+function fitWord(){
+  const wl=$('wl'), wp=$('wp'), wr=$('wr'), box=wl.parentElement, m=$('wm');
+  box.style.setProperty('--fit','1');
+  const half=(box.clientWidth-20)/2;
+  if(half<=0) return;
+  m.textContent=wl.textContent; const lw=m.offsetWidth;
+  m.textContent=wr.textContent; const rw=m.offsetWidth;
+  m.textContent=wp.textContent; const pw=m.offsetWidth;
+  const need=Math.max(lw,rw)+pw/2;
+  if(need>half) box.style.setProperty('--fit', Math.max(0.2, half/need*0.97).toFixed(3));
+}
+window.addEventListener('resize',()=>{ if(!$('reader').hidden && set.mode==='rsvp') fitWord(); });
+
+const PAGE=320;
+function buildPage(start){
+  let s=start, back=0; while(s>0 && !R.parEnd.has(s-1) && back<150){ s--; back++; }
+  const e=Math.min(R.words.length, s+PAGE), bio=set.mode==='bionic';
+  let html='<p>';
+  for(let k=s;k<e;k++){
+    html+=`<span data-i="${k}">${bio?bionic(R.words[k]):esc(R.words[k])}</span>`;
+    html+= (R.parEnd.has(k) && k<e-1) ? '</p><p>' : ' ';
+  }
+  pageEl.innerHTML=html+'</p>';
+  pageEl.classList.toggle('bionic',bio);
+  R.pageStart=s; R.pageEnd=e; R.pageMode=set.mode; R.spans=pageEl.querySelectorAll('span[data-i]'); R.lines=null;
+  pageEl.scrollTop=0;
+}
+function ensurePage(){ if(R.i<R.pageStart || R.i>=R.pageEnd || R.pageMode!==set.mode) buildPage(R.i); }
+function computeLines(){
+  const L=[]; let top=null, cur=null;
+  R.spans.forEach((sp,j)=>{ const t=sp.offsetTop; if(top===null || Math.abs(t-top)>4){ cur={start:R.pageStart+j,end:R.pageStart+j}; L.push(cur); top=t; } else cur.end=R.pageStart+j; });
+  R.lines=L;
+}
+function lineEnd(i){ if(!R.lines) computeLines(); const l=R.lines.find(x=>i>=x.start&&i<=x.end); return l?l.end:i; }
+function highlight(from,to){
+  pageEl.querySelectorAll('.cur').forEach(x=>x.classList.remove('cur'));
+  for(let k=from;k<=to;k++){ const sp=R.spans[k-R.pageStart]; if(sp) sp.classList.add('cur'); }
+  const first=R.spans[from-R.pageStart]; if(!first) return;
+  const y=first.offsetTop - pageEl.scrollTop, h=pageEl.clientHeight;
+  if(y<h*0.15 || y>h*0.6) pageEl.scrollTo({top:Math.max(0,first.offsetTop-h*0.3), behavior:reduceMotion?'auto':'smooth'});
+}
+function chunkEnd(i){ return set.mode==='line' ? lineEnd(i) : Math.min(R.words.length-1, i+set.chunk-1); }
+
+function renderReader(){
+  const n=R.words.length, rsvp=set.mode==='rsvp';
+  $('rsvp').hidden=!rsvp; pageEl.hidden=rsvp;
+  let hint='';
+  if(!n){ show(''); hint='Este texto está vacío'; }
+  else if(R.i>=n){ if(rsvp) show('Fin'); else { R.i=n-1; ensurePage(); R.i=n; highlight(-1,-1); } hint='Texto terminado. Toca para volver a empezar'; }
+  else {
+    if(rsvp) show(R.words.slice(R.i,chunkEnd(R.i)+1).join(' '));
+    else { ensurePage(); highlight(R.i,chunkEnd(R.i)); }
+    if(!R.playing) hint = R.i===0 ? 'Toca para empezar' : 'En pausa · toca para seguir';
+  }
+  $('rHint').hidden=!hint; $('rHint').firstElementChild.textContent=hint;
+  updateMeta();
+}
+function updateMeta(){
+  const n=R.words.length, i=Math.min(R.i,n);
+  $('rPct').textContent=(n?Math.round(i/n*100):0)+'%';
+  const m=(n-i)/set.wpm; $('rLeft').textContent = m<1 ? Math.round(m*60)+' s' : Math.round(m)+' min';
+  $('rSeek').value=Math.min(i,Math.max(0,n-1));
+  $('rPlay').textContent=R.playing?'Pausa':'Leer';
+}
+function delayFor(from,to){
+  const base=60000/set.wpm; let d=base*(to-from+1);
+  if(set.punct){ for(let k=from;k<=to;k++){ const w=R.words[k];
+    if(R.parEnd.has(k) && k<R.words.length-1) d+=base*1.6;
+    else if(/[.!?…]["'»”)\]]*$/.test(w)) d+=base*1.1;
+    else if(/[,;:—]["'»”)\]]*$/.test(w)) d+=base*0.5; } }
+  if(set.mode==='rsvp' && from===to && Array.from(R.words[from]).length>9) d*=1.25;
+  return d;
+}
+function step(){
+  if(!R.playing) return;
+  const n=R.words.length;
+  if(R.i>=n){ finish(); return; }
+  const from=R.i;
+  if(set.mode==='rsvp'){ const to=chunkEnd(from); show(R.words.slice(from,to+1).join(' ')); advance(from,to); }
+  else { ensurePage(); const to=chunkEnd(from); highlight(from,to); advance(from,to); }
+}
+function advance(from,to){
+  R.shown=from; R.i=to+1; R.sessW+=to-from+1; updateMeta();
+  if(R.sessW%50<(to-from+1)) persistPos();
+  R.timer=setTimeout(step,delayFor(from,to));
+}
+async function play(){
+  if(!R.words.length) return;
+  if(R.i>=R.words.length){ R.i=0; R.pageStart=-1; }
+  R.playing=true; R.sessT=Date.now(); R.sessW=0;
+  $('rHint').hidden=true; updateMeta(); audioInit(); timerStart();
+  try{ if('wakeLock' in navigator) R.lock=await navigator.wakeLock.request('screen'); }catch(e){}
+  step();
+}
+function pause(){
+  if(!R.playing) return;
+  R.playing=false; clearTimeout(R.timer);
+  if(R.i<=R.words.length && R.i>R.shown) R.i=R.shown;
+  logSession(); timerStop();
+  try{ R.lock && R.lock.release(); }catch(e){} R.lock=null;
+  persistPos(); renderReader();
+}
+function finish(){
+  R.playing=false; clearTimeout(R.timer); R.i=R.words.length;
+  logSession(); timerStop(); try{ R.lock && R.lock.release(); }catch(e){} R.lock=null;
+  persistPos(); renderReader(); toast('Texto terminado. ¡Bien hecho!'); checkBadges();
+}
+function logSession(){
+  const ms=Date.now()-R.sessT, w=R.sessW;
+  if(w>=10 && ms>3000){ sessions.push({t:Date.now(), words:w, ms, wpm:Math.round(w/(ms/60000)), mode:set.mode}); saveSessions(); checkBadges(); }
+  R.sessW=0; R.sessT=Date.now();
+}
+function toggle(){ R.playing?pause():play(); }
+function jumpTo(i){
+  const was=R.playing; if(was){ clearTimeout(R.timer); R.playing=false; logSession(); }
+  R.i=Math.max(0,Math.min(i,Math.max(0,R.words.length-1))); R.shown=R.i;
+  if(was){ R.playing=true; R.sessT=Date.now(); step(); } else renderReader();
+  persistPos();
+}
+stage.addEventListener('click',toggle);
+stage.addEventListener('keydown',e=>{ if(e.key===' '||e.key==='Enter'){ e.preventDefault(); toggle(); }
+  if(e.key==='ArrowLeft') jumpTo(R.i-10); if(e.key==='ArrowRight') jumpTo(R.i+10); });
+$('rPlay').onclick=toggle;
+$('rBack').onclick=()=>jumpTo((R.playing?R.shown:R.i)-10);
+$('rFwd').onclick=()=>jumpTo((R.playing?R.shown:R.i)+10);
+$('rSeek').oninput=e=>jumpTo(+e.target.value);
+$('rMode').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; setMode(b.dataset.m); });
+function setMode(m){
+  const was=R.playing; if(was){ clearTimeout(R.timer); R.i=R.shown; }
+  set.mode=m; saveSet(); R.pageStart=-1; syncReaderControls();
+  if(was){ renderReader(); $('rHint').hidden=true; step(); } else renderReader();
+}
+function setWpm(v){ set.wpm=Math.max(50,Math.min(1000,v)); saveSet(); $('wOut').textContent=set.wpm+' ppm'; updateMeta(); }
+$('wDown').onclick=()=>setWpm(set.wpm-25);
+$('wUp').onclick=()=>setWpm(set.wpm+25);
+function setChunkN(n){ set.chunk=Math.max(1,Math.min(3,n)); saveSet(); syncReaderControls(); if(!R.playing && !$('reader').hidden) renderReader(); }
+$('cDown').onclick=()=>setChunkN(set.chunk-1);
+$('cUp').onclick=()=>setChunkN(set.chunk+1);
+document.addEventListener('visibilitychange',()=>{ if(document.hidden && R.playing) pause(); });
+
+/* marcadores y notas */
+const snippet=i=>R.words.slice(i,i+7).join(' ')+(i+7<R.words.length?'…':'');
+$('rMark').onclick=e=>{ e.stopPropagation(); if(!R.item||!R.words.length) return;
+  const pos=R.playing?R.shown:Math.min(R.i,R.words.length-1);
+  R.item.marks.push({pos, t:Date.now()}); saveLib(); renderNotes(); toast('Marcador añadido'); };
+$('rNotes').onclick=()=>{ $('rMark').hidden=!R.words.length; if(R.playing) pause(); renderNotes(); $('noteText').value=''; $('dlgNotes').showModal(); };
+$('notesClose').onclick=()=>$('dlgNotes').close();
+function renderNotes(){
+  const it=R.item; if(!it) return;
+  const rows=[...it.marks.map((m,k)=>({type:'m',k,pos:m.pos,label:'Marcador'})), ...it.notes.map((n,k)=>({type:'n',k,pos:n.pos,label:n.text}))].sort((a,b)=>a.pos-b.pos);
+  $('markList').innerHTML = rows.length ? rows.map(r=>`<li><button type="button" class="go" data-go="${r.pos}">${esc(r.label)}<small>${Math.round(r.pos/Math.max(1,R.words.length)*100)}% · ${esc(snippet(r.pos))}</small></button><button type="button" class="x" data-rm="${r.type}${r.k}" aria-label="Eliminar">Quitar</button></li>`).join('')
+    : '<li class="muted" style="padding:6px 2px">Aún no hay marcadores ni notas. Usa Marcar mientras lees o escribe una nota abajo.</li>';
+}
+$('markList').addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]'); if(g){ $('dlgNotes').close(); jumpTo(+g.dataset.go); return; }
+  const r=e.target.closest('[data-rm]'); if(r){ const t=r.dataset.rm[0], k=+r.dataset.rm.slice(1);
+    (t==='m'?R.item.marks:R.item.notes).splice(k,1); saveLib(); renderNotes(); }
+});
+$('noteSave').onclick=()=>{ const t=$('noteText').value.trim(); if(!t){ $('noteText').focus(); return; }
+  R.item.notes.push({text:t, pos:Math.min(R.i,Math.max(0,R.words.length-1)), t:Date.now()}); saveLib(); $('noteText').value=''; renderNotes(); toast('Nota guardada'); };
+
+/* ---------- test de velocidad ---------- */
+const TEST=`El pulpo es uno de los animales más sorprendentes del océano. Aunque no tiene huesos, puede abrir frascos, escapar de recipientes cerrados y esconderse en grietas diminutas. Su cuerpo blando le permite pasar por cualquier hueco más grande que su pico, la única parte dura que posee.
+
+Su sistema circulatorio también es poco común. Tiene tres corazones: dos bombean sangre hacia las branquias y el tercero la envía al resto del cuerpo. Además, su sangre es azul, porque transporta el oxígeno gracias a la hemocianina, una proteína que contiene cobre en lugar del hierro de nuestra hemoglobina.
+
+Lo más llamativo es su forma de percibir el mundo. La mayor parte de sus neuronas no está en la cabeza, sino repartida por los brazos. Por eso cada brazo puede explorar, tocar y saborear lo que encuentra con cierta independencia, mientras el cerebro central coordina el conjunto.
+
+Los pulpos cambian de color y de textura en fracciones de segundo. Para ello usan unas células de la piel llamadas cromatóforos, que se abren y se cierran como pequeños abanicos de pigmento. Así se confunden con la arena, las rocas o las algas, y también pueden mostrar colores intensos para advertir a sus rivales.
+
+A pesar de todas estas habilidades, la mayoría de las especies vive poco tiempo, a menudo entre uno y dos años.`;
+const QS=[
+  {q:'¿Cuántos corazones tiene el pulpo?', o:['Uno','Dos','Tres','Cuatro'], a:2},
+  {q:'¿Por qué su sangre es azul?', o:['Por el hierro','Por una proteína con cobre','Por el agua salada','Por los pigmentos de la piel'], a:1},
+  {q:'¿Dónde está la mayor parte de sus neuronas?', o:['En la cabeza','En los brazos','En la piel','En las branquias'], a:1}
+];
+const T={t0:0,wpm:0,ans:[]};
+function openTest(){ $('test').hidden=false; document.body.classList.add('lock'); testIntro(); }
+function closeTest(){ $('test').hidden=true; if($('reader').hidden) document.body.classList.remove('lock'); renderLib(); if(!$('v-stats').hidden) renderStats(); }
+$('tClose').onclick=closeTest;
+function testIntro(){
+  $('tBody').innerHTML=`<h1 style="margin-top:8px">¿A qué velocidad lees?</h1>
+  <p>Vas a leer un texto corto de forma normal, a tu ritmo habitual. Pulsa <b>Empezar</b> y, cuando llegues al final, pulsa <b>He terminado</b>. Después responderás tres preguntas para medir tu comprensión.</p>
+  <p class="muted">No intentes ir más rápido de lo normal: el objetivo es conocer tu punto de partida.</p>
+  <button type="button" class="primary" id="tStart" style="width:100%;margin-top:10px">Empezar</button>`;
+  $('tStart').onclick=testRead;
+}
+function testRead(){
+  $('tBody').innerHTML=`<div class="passage">${TEST.split(/\n\s*\n/).map(p=>'<p>'+esc(p)+'</p>').join('')}</div>
+  <button type="button" class="primary" id="tDone" style="width:100%">He terminado</button>`;
+  $('tBody').scrollTop=0; T.t0=performance.now(); $('tDone').onclick=testQuestions;
+}
+function testQuestions(){
+  const mins=(performance.now()-T.t0)/60000; T.wpm=Math.round(countWords(TEST)/mins); T.ans=QS.map(()=>-1);
+  $('tBody').innerHTML=`<h2 style="margin-top:8px">Comprensión</h2>`+QS.map((q,k)=>`<div class="q"><p>${k+1}. ${esc(q.q)}</p><div class="opts" data-q="${k}">${q.o.map((o,j)=>`<button type="button" data-j="${j}" aria-pressed="false">${esc(o)}</button>`).join('')}</div></div>`).join('')+
+  `<button type="button" class="primary" id="tFinish" style="width:100%">Ver resultado</button><p class="status" id="tMsg"></p>`;
+  $('tBody').scrollTop=0;
+  $('tBody').querySelectorAll('.opts').forEach(g=>g.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return;
+    T.ans[+g.dataset.q]=+b.dataset.j; g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); }));
+  $('tFinish').onclick=()=>{ if(T.ans.includes(-1)){ $('tMsg').textContent='Responde las tres preguntas.'; return; } testResult(); };
+}
+function testResult(){
+  const ok=T.ans.filter((a,k)=>a===QS[k].a).length, comp=Math.round(ok/QS.length*100);
+  tests.push({t:Date.now(), wpm:T.wpm, comp}); saveTests(); set.testDone=true; saveSet(); checkBadges();
+  const rec=Math.max(100,Math.min(1000,Math.round(T.wpm*1.1/25)*25));
+  const level = T.wpm<180?'por debajo de la media':T.wpm<260?'en la media':T.wpm<400?'por encima de la media':'muy alta';
+  $('tBody').innerHTML=`<p class="muted" style="margin:18px 0 0">Tu velocidad</p><p class="big">${fmtN(T.wpm)} ppm</p>
+   <p>Comprensión: <b>${comp}%</b> (${ok} de ${QS.length}). Tu velocidad está ${level}; un adulto suele leer entre 200 y 300 palabras por minuto.</p>
+   <p>Te recomendamos empezar a <b>${rec} ppm</b> y subir de 25 en 25 cuando te sientas cómodo.</p>
+   <div class="actions" style="margin-top:12px"><button type="button" id="tAgain">Repetir</button><button type="button" class="primary" id="tUse">Usar ${rec} ppm</button></div>`;
+  $('tAgain').onclick=testIntro;
+  $('tUse').onclick=()=>{ setWpm(rec); toast('Velocidad ajustada a '+rec+' ppm'); closeTest(); };
+}
+
+/* ---------- progreso ---------- */
+let period='week';
+$('periodSeg').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; period=b.dataset.p;
+  $('periodSeg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); renderStats(); });
+function periodStart(p){ const d=new Date(); d.setHours(0,0,0,0);
+  if(p==='day') return d.getTime(); if(p==='week'){ d.setDate(d.getDate()-((d.getDay()+6)%7)); return d.getTime(); }
+  if(p==='month'){ d.setDate(1); return d.getTime(); } return 0; }
+function streak(){
+  const days=new Set(sessions.map(s=>dayKey(s.t))); let n=0; const d=new Date();
+  if(!days.has(dayKey(d))) d.setDate(d.getDate()-1);
+  while(days.has(dayKey(d))){ n++; d.setDate(d.getDate()-1); }
+  return n;
+}
+const BADGES=[
+  {id:'first', ic:'📖', n:'Primera sesión', d:'Lee por primera vez', ok:()=>sessions.length>0},
+  {id:'test',  ic:'⏱️', n:'Punto de partida', d:'Completa el test', ok:()=>tests.length>0},
+  {id:'w1k',   ic:'🔹', n:'1.000 palabras', d:'Palabras leídas en total', ok:()=>total()>=1000},
+  {id:'w10k',  ic:'🔷', n:'10.000 palabras', d:'Palabras leídas en total', ok:()=>total()>=10000},
+  {id:'w100k', ic:'💎', n:'100.000 palabras', d:'Palabras leídas en total', ok:()=>total()>=100000},
+  {id:'done',  ic:'🏁', n:'Hasta el final', d:'Termina un texto', ok:()=>lib.some(x=>x.words>0&&x.pos>=x.words)},
+  {id:'s3',    ic:'🔥', n:'Racha de 3 días', d:'Lee tres días seguidos', ok:()=>streak()>=3},
+  {id:'s7',    ic:'🌟', n:'Racha de 7 días', d:'Lee una semana seguida', ok:()=>streak()>=7},
+  {id:'p400',  ic:'⚡', n:'400 ppm', d:'Una sesión de 100+ palabras a 400 ppm', ok:()=>sessions.some(s=>s.words>=100&&s.wpm>=400)},
+  {id:'p600',  ic:'🚀', n:'600 ppm', d:'Una sesión de 100+ palabras a 600 ppm', ok:()=>sessions.some(s=>s.words>=100&&s.wpm>=600)}
+];
+const total=()=>sessions.reduce((a,s)=>a+s.words,0);
+let earned=new Set();
+function checkBadges(){ BADGES.forEach(b=>{ if(!earned.has(b.id) && b.ok()){ earned.add(b.id); if(checkBadges.ready) toast('Logro desbloqueado: '+b.n); } }); DB.set('earned',[...earned]); }
+function renderStats(){
+  const from=periodStart(period), ss=sessions.filter(s=>s.t>=from);
+  const w=ss.reduce((a,s)=>a+s.words,0), ms=ss.reduce((a,s)=>a+s.ms,0);
+  $('sWords').textContent=fmtN(w); $('sTime').textContent=fmtMin(ms);
+  $('sWpm').textContent = ms>0 ? fmtN(w/(ms/60000)) : '–'; $('sStreak').textContent=streak();
+  // gráfico 7 días
+  const days=[], lbl=['D','L','M','X','J','V','S'];
+  for(let k=6;k>=0;k--){ const d=new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()-k); const key=dayKey(d);
+    days.push({l:lbl[d.getDay()], v:sessions.filter(s=>dayKey(s.t)===key).reduce((a,s)=>a+s.words,0), today:k===0}); }
+  const max=Math.max(1,...days.map(d=>d.v)), W=320, H=150, bw=30, gap=(W-bw*7)/6;
+  $('chart').innerHTML=`<svg viewBox="0 0 ${W} ${H+34}" role="img" aria-label="Palabras leídas por día, últimos 7 días">${days.map((d,k)=>{
+    const h=Math.max(2,d.v/max*H), x=k*(bw+gap);
+    return `<rect x="${x}" y="${H-h}" width="${bw}" height="${h}" rx="6" fill="${d.v?'var(--accent)':'var(--line)'}"/>
+      <text x="${x+bw/2}" y="${H+16}" text-anchor="middle" font-size="12" fill="var(--muted)" ${d.today?'font-weight="700"':''}>${d.l}</text>
+      ${d.v?`<text x="${x+bw/2}" y="${H+31}" text-anchor="middle" font-size="10" fill="var(--muted)">${d.v>=1000?(d.v/1000).toFixed(1)+'k':d.v}</text>`:''}`;
+  }).join('')}</svg>`;
+  // tests
+  $('testsBox').innerHTML = tests.length ? `<table><thead><tr><th>Fecha</th><th>Velocidad</th><th>Comprensión</th></tr></thead><tbody>${
+    tests.slice(-6).reverse().map(t=>`<tr><td>${new Date(t.t).toLocaleDateString('es-ES',{day:'numeric',month:'short'})}</td><td>${fmtN(t.wpm)} ppm</td><td>${t.comp}%</td></tr>`).join('')}</tbody></table>
+    ${tests.length>1?`<p class="muted" style="margin:10px 0 0;font-size:.9rem">Desde tu primer test: ${(tests[tests.length-1].wpm-tests[0].wpm>=0?'+':'')+fmtN(tests[tests.length-1].wpm-tests[0].wpm)} ppm.</p>`:''}`
+    : '<p class="muted" style="margin:0">Aún no has hecho ningún test. Hazlo para conocer tu punto de partida.</p>';
+  $('badgeTitle').textContent=`Logros (${earned.size} de ${BADGES.length})`;
+  $('badges').innerHTML=BADGES.map(b=>`<div class="badge ${earned.has(b.id)?'on':''}"><div class="ic" aria-hidden="true">${b.ic}</div><b>${b.n}</b><span>${b.d}</span></div>`).join('');
+}
+
+/* ---------- ajustes ---------- */
+function renderSettings(){
+  $('setWpm').value=set.wpm; $('setWpmVal').textContent=set.wpm+' ppm';
+  $('setChunk').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.n===set.chunk)));
+  $('setMode').innerHTML=MODES.map(m=>`<button type="button" data-m="${m.id}" aria-pressed="${set.mode===m.id}">${m.name}</button>`).join('');
+  $('modeDesc').textContent=MODES.find(m=>m.id===set.mode).desc;
+  $('setPunct').checked=set.punct;
+  $('setFont').value=set.font; $('setFontVal').textContent=set.font+'%';
+  $('setTheme').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.t===set.theme)));
+  $('customColors').hidden=set.theme!=='custom';
+  $('cBg').value=set.custom.bg; $('cFg').value=set.custom.fg; $('cHl').value=set.custom.hl;
+  $('setBlocks').checked=set.blocks; $('setSound').checked=set.sound; $('setProxy').value=set.proxy||'';
+  $('setBlk').querySelectorAll('button').forEach(b=>{ b.setAttribute('aria-pressed',String(+b.dataset.v===set.blockMin)); b.disabled=!set.blocks; });
+  $('setRest').querySelectorAll('button').forEach(b=>{ b.setAttribute('aria-pressed',String(+b.dataset.v===set.restMin)); b.disabled=!set.blocks; });
+}
+$('setBlocks').onchange=e=>{ set.blocks=e.target.checked; saveSet(); renderSettings(); };
+$('setSound').onchange=e=>{ set.sound=e.target.checked; saveSet(); };
+$('setBlk').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; set.blockMin=+b.dataset.v; saveSet(); renderSettings(); });
+$('setRest').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; set.restMin=+b.dataset.v; saveSet(); renderSettings(); });
+$('setProxy').onchange=e=>{ set.proxy=e.target.value.trim(); saveSet(); };
+$('setWpm').oninput=e=>{ setWpm(+e.target.value); $('setWpmVal').textContent=set.wpm+' ppm'; };
+$('setChunk').addEventListener('click',e=>{ const b=e.target.closest('button'); if(b){ setChunkN(+b.dataset.n); renderSettings(); } });
+$('setMode').addEventListener('click',e=>{ const b=e.target.closest('button'); if(b){ set.mode=b.dataset.m; saveSet(); renderSettings(); } });
+$('setPunct').onchange=e=>{ set.punct=e.target.checked; saveSet(); };
+$('setFont').oninput=e=>{ set.font=+e.target.value; saveSet(); $('setFontVal').textContent=set.font+'%'; applyTheme(); };
+$('setTheme').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; set.theme=b.dataset.t; saveSet(); applyTheme(); renderSettings(); });
+['cBg','cFg','cHl'].forEach((id,k)=>$(id).oninput=e=>{ set.custom[['bg','fg','hl'][k]]=e.target.value; saveSet(); applyTheme(); });
+$('wipe').onclick=async()=>{ if(!confirm('Se borrarán tu biblioteca, palabras, estadísticas, logros y ajustes. ¿Continuar?')) return;
+  await DB.clear(); set=JSON.parse(JSON.stringify(DEF)); lib=[]; sessions=[]; tests=[]; words=[]; earned=new Set();
+  await addText(SAMPLE_TITLE,SAMPLE); await saveSet(); applyTheme(); showView('lib'); toast('Datos borrados'); };
+
+/* ---------- sonido ---------- */
+let actx=null;
+function audioInit(){ try{ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==='suspended') actx.resume(); }catch(e){} }
+function chime(up){
+  if(!set.sound) return;
+  try{ navigator.vibrate && navigator.vibrate(up?[120,80,120,80,260]:[300,120,300]); }catch(e){}
+  if(!actx) return;
+  const notes = up ? [523.25,659.25,783.99] : [783.99,659.25,523.25];
+  notes.forEach((f,k)=>{ const o=actx.createOscillator(), g=actx.createGain(), t=actx.currentTime+k*0.22;
+    o.type='sine'; o.frequency.value=f; g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.35,t+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.5); o.connect(g).connect(actx.destination); o.start(t); o.stop(t+0.55); });
+}
+const mmss = ms => { const s=Math.max(0,Math.round(ms/1000)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
+
+/* ---------- cronómetro por bloques ---------- */
+const B={elapsed:0, n:1, runStart:0, last:0, iv:null};
+const blockMs = () => set.blockMin*60000;
+function blockElapsed(){ return B.elapsed + (B.runStart ? Date.now()-B.runStart : 0); }
+function timerStart(){
+  if(B.runStart) return;
+  if(B.last && Date.now()-B.last > 30*60000){ B.elapsed=0; B.n=1; }   // tras media hora sin leer, empieza de cero
+  B.runStart=Date.now(); clearInterval(B.iv); B.iv=setInterval(timerTick,250); renderTimer();
+}
+function timerStop(){
+  if(B.runStart){ B.elapsed+=Date.now()-B.runStart; B.runStart=0; }
+  clearInterval(B.iv); B.iv=null; B.last=Date.now(); renderTimer();
+}
+function timerTick(){ renderTimer(); if(set.blocks && blockElapsed()>=blockMs()) endBlock(); }
+function renderTimer(){
+  const el=blockElapsed();
+  if(set.blocks){
+    const left=blockMs()-el;
+    $('tmNow').textContent=mmss(left);
+    $('tmSub').textContent=`bloque ${B.n}`;
+    $('tmBar').style.width=Math.min(100,el/blockMs()*100)+'%';
+    $('rTimer').classList.toggle('near', left<=60000);
+    $('rTimer').setAttribute('aria-label',`Bloque ${B.n}: quedan ${mmss(left)} de ${set.blockMin} minutos. Toca para reiniciar`);
+  } else {
+    $('tmNow').textContent=mmss(el); $('tmSub').textContent='leyendo'; $('tmBar').style.width='0';
+    $('rTimer').classList.remove('near');
+    $('rTimer').setAttribute('aria-label',`Tiempo leyendo: ${mmss(el)}. Toca para reiniciar`);
+  }
+}
+$('rTimer').onclick=e=>{ e.stopPropagation();
+  if(!confirm(set.blocks?'¿Reiniciar el bloque desde cero?':'¿Poner el cronómetro a cero?')) return;
+  const run=!!B.runStart; B.elapsed=0; B.n=set.blocks?B.n:1; if(run) B.runStart=Date.now(); renderTimer(); };
+
+/* ---------- descanso ---------- */
+const REST={end:0, iv:null, lock:null};
+function todayMs(){ const k=dayKey(Date.now()); return sessions.filter(s=>dayKey(s.t)===k).reduce((a,s)=>a+s.ms,0); }
+async function endBlock(){
+  pause(); B.elapsed=0; B.n++; renderTimer();
+  REST.end=Date.now()+set.restMin*60000;
+  $('restTitle').textContent='Descanso';
+  $('restMsg').textContent=`Bloque terminado: ${set.blockMin} minutos de lectura. Levántate, estírate y mira algo lejano. Hoy llevas ${fmtMin(todayMs())} leyendo.`;
+  $('restSkip').hidden=false; $('restGo').hidden=true;
+  $('rest').hidden=false; chime(false);
+  try{ if('wakeLock' in navigator) REST.lock=await navigator.wakeLock.request('screen'); }catch(e){}
+  clearInterval(REST.iv); REST.iv=setInterval(restTick,250); restTick();
+}
+function restTick(){
+  const left=REST.end-Date.now(); $('restClock').textContent=mmss(left);
+  if(left<=0){ clearInterval(REST.iv); REST.iv=null; restDone(true); }
+}
+function restDone(sound){
+  $('restTitle').textContent='¡A leer!'; $('restClock').textContent='0:00';
+  $('restMsg').textContent=`Empieza el bloque ${B.n}.`;
+  $('restSkip').hidden=true; $('restGo').hidden=false; $('restGo').focus();
+  if(sound) chime(true);
+}
+function closeRest(){ clearInterval(REST.iv); REST.iv=null; $('rest').hidden=true; try{ REST.lock&&REST.lock.release(); }catch(e){} REST.lock=null; }
+$('restSkip').onclick=()=>{ clearInterval(REST.iv); REST.iv=null; restDone(false); };
+$('restGo').onclick=()=>{ closeRest(); play(); };
+$('restExit').onclick=()=>{ closeRest(); $('rClose').click(); };
+
+/* ---------- palabras desconocidas ---------- */
+const cleanWord = w => String(w).replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu,'');
+const wordKey = w => cleanWord(w).toLocaleLowerCase('es');
+function sentenceAround(i){
+  const end=k=>R.parEnd.has(k) || /[.!?…][\"'»”)\]]*$/.test(R.words[k]||'');
+  let a=i; while(a>0 && !end(a-1) && i-a<30) a--;
+  let b=i; while(b<R.words.length-1 && !end(b) && b-i<30) b++;
+  return (a>0&&!end(a-1)?'… ':'')+R.words.slice(a,b+1).join(' ')+(b<R.words.length-1&&!end(b)?' …':'');
+}
+$('rWord').onclick=e=>{ e.stopPropagation(); if(!R.words.length) return;
+  if(R.playing) pause();
+  const cur=Math.min(R.i,R.words.length-1), to=chunkEnd(cur), from=Math.max(0,cur-Math.max(3,set.chunk));
+  const seen=new Set(), chips=[];
+  for(let k=to;k>=from;k--){ const w=cleanWord(R.words[k]); const key=wordKey(w); if(!w||seen.has(key)) continue; seen.add(key); chips.unshift({k,w,now:k>=cur}); }
+  $('wordChips').innerHTML = chips.map(c=>`<button type="button" data-wk="${c.k}" class="${c.now?'now':''}">${esc(c.w)}</button>`).join('');
+  $('dlgWord').showModal();
+};
+$('wordClose').onclick=()=>$('dlgWord').close();
+$('wordChips').addEventListener('click',e=>{ const b=e.target.closest('[data-wk]'); if(!b) return;
+  const k=+b.dataset.wk, w=cleanWord(R.words[k]), key=wordKey(w);
+  const old=words.find(x=>x.k===key);
+  if(old){ old.count=(old.count||1)+1; old.learned=false; toast(`“${w}” ya estaba guardada`); }
+  else { words.unshift({id:uid(), w, k:key, ctx:sentenceAround(k), book:R.item.title, bookId:R.item.id, pos:k, t:Date.now(), learned:false, count:1}); toast(`Guardada: ${w}`); }
+  saveWords(); $('dlgWord').close();
+});
+
+let wFilter='todo';
+$('wFilter').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; wFilter=b.dataset.w;
+  $('wFilter').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); renderWords(); });
+function ctxHtml(x){
+  const re=new RegExp('('+x.w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','i');
+  return esc(x.ctx).replace(re,'<mark>$1</mark>');
+}
+function renderWords(){
+  const todo=words.filter(x=>!x.learned), done=words.filter(x=>x.learned);
+  const btns=$('wFilter').querySelectorAll('button');
+  btns[0].textContent=`Por aprender (${todo.length})`; btns[1].textContent=`Aprendidas (${done.length})`;
+  $('practBtn').disabled=!todo.length;
+  const list=wFilter==='todo'?todo:done;
+  if(!list.length){
+    $('wList').innerHTML=`<li class="empty">${wFilter==='todo'
+      ? 'Mientras lees, toca <b>Palabra</b> para guardar las que no conozcas. Aparecerán aquí para repasarlas.'
+      : 'Las palabras que marques como sabidas en el repaso aparecerán aquí.'}</li>`; return;
+  }
+  $('wList').innerHTML=list.map(x=>`<li class="word-row"><div class="wmain"><b>${esc(x.w)}</b><q>${ctxHtml(x)}</q>
+    <small>${esc(x.book)} · ${new Date(x.t).toLocaleDateString('es',{day:'numeric',month:'short'})}${x.count>1?' · marcada '+x.count+' veces':''}</small></div>
+    <div class="side"><button type="button" data-say="${x.id}">Escuchar</button>
+    <button type="button" data-learn="${x.id}">${x.learned?'Repasar':'La sé'}</button>
+    <button type="button" data-wdel="${x.id}">Quitar</button></div></li>`).join('');
+}
+$('wList').addEventListener('click',e=>{
+  const s=e.target.closest('[data-say]'); if(s){ const x=words.find(w=>w.id===s.dataset.say); if(x) speak(x.w); return; }
+  const l=e.target.closest('[data-learn]'); if(l){ const x=words.find(w=>w.id===l.dataset.learn); if(x){ x.learned=!x.learned; saveWords(); renderWords(); } return; }
+  const d=e.target.closest('[data-wdel]'); if(d){ const x=words.find(w=>w.id===d.dataset.wdel); if(x && confirm(`¿Quitar “${x.w}”?`)){ words=words.filter(w=>w!==x); saveWords(); renderWords(); } }
+});
+function speak(text){
+  try{ if(!('speechSynthesis' in window)){ toast('Este navegador no puede leer en voz alta'); return; }
+    speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text);
+    const nl=navigator.language||''; u.lang=nl.toLowerCase().startsWith('es')?nl:'es-MX';
+    const v=speechSynthesis.getVoices().find(v=>v.lang===u.lang)||speechSynthesis.getVoices().find(v=>v.lang.toLowerCase().startsWith('es'));
+    if(v) u.voice=v; u.rate=0.85; speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+/* repaso tipo tarjetas */
+const P={q:[], i:0, known:0, shown:false};
+$('practBtn').onclick=()=>{
+  P.q=words.filter(x=>!x.learned).sort(()=>Math.random()-0.5); P.i=0; P.known=0;
+  if(!P.q.length) return;
+  $('practice').hidden=false; document.body.classList.add('lock'); renderCard();
+};
+function renderCard(){
+  if(P.i>=P.q.length){
+    $('pCount').textContent='Repaso terminado';
+    $('pCard').innerHTML=`<div class="big-w">${P.known} de ${P.q.length}</div><p class="muted">palabras aprendidas en este repaso.</p>`;
+    $('pAgain').hidden=true; $('pSpeak').hidden=true; $('pKnow').textContent='Terminar'; return;
+  }
+  const x=P.q[P.i]; P.shown=false;
+  $('pAgain').hidden=false; $('pSpeak').hidden=false; $('pKnow').textContent='La sé';
+  $('pCount').textContent=`${P.i+1} de ${P.q.length}`;
+  $('pCard').innerHTML=`<div class="big-w">${esc(x.w)}</div><button type="button" id="pShow">Ver la frase</button>`;
+  $('pShow').onclick=()=>{ $('pShow').outerHTML=`<q>${ctxHtml(x)}</q>`; };
+}
+$('pSpeak').onclick=()=>{ const x=P.q[P.i]; if(x) speak(x.w); };
+$('pAgain').onclick=()=>{ const x=P.q[P.i]; if(x){ P.q.push(x); } P.i++; renderCard(); };
+$('pKnow').onclick=()=>{
+  if(P.i>=P.q.length){ closePractice(); return; }
+  const x=P.q[P.i]; x.learned=true; P.known++; saveWords();
+  P.q=P.q.filter((y,k)=>k<=P.i||y!==x); P.i++; renderCard();
+};
+function closePractice(){ $('practice').hidden=true; document.body.classList.remove('lock'); try{ window.speechSynthesis && speechSynthesis.cancel(); }catch(e){} renderWords(); }
+$('pClose').onclick=closePractice;
+
+/* ---------- copia de seguridad ---------- */
+$('expBtn').onclick=async()=>{
+  try{
+    const texts={}; for(const it of lib) texts[it.id]=(await DB.get('t:'+it.id))||'';
+    const data={app:'lectura-rapida', version:2, exported:new Date().toISOString(), settings:set, lib, texts, sessions, tests, earned:[...earned], words};
+    const blob=new Blob([JSON.stringify(data)],{type:'application/json'});
+    const name=`lectura-rapida-copia-${dayKey(Date.now())}.json`;
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },2000);
+    $('bkStatus').textContent=`Copia creada: ${name}. Búscala en Descargas.`;
+  }catch(e){ $('bkStatus').textContent='No se pudo crear la copia: '+(e.message||e); }
+};
+$('impIn').onchange=async e=>{
+  const f=e.target.files[0]; e.target.value=''; if(!f) return;
+  try{
+    const d=JSON.parse(await f.text());
+    if(!d || d.app!=='lectura-rapida' || !Array.isArray(d.lib)) throw new Error('el archivo no es una copia de Lectura Rápida');
+    let nT=0, nW=0;
+    for(const it of d.lib){
+      const mine=lib.find(x=>x.id===it.id);
+      if(mine){ mine.pos=Math.max(mine.pos||0,it.pos||0); continue; }
+      await DB.set('t:'+it.id, (d.texts&&d.texts[it.id])||''); lib.push(Object.assign({marks:[],notes:[]},it)); nT++;
+    }
+    const sk=new Set(sessions.map(s=>s.t+':'+s.words)); (d.sessions||[]).forEach(s=>{ if(!sk.has(s.t+':'+s.words)) sessions.push(s); });
+    sessions.sort((a,b)=>a.t-b.t);
+    const tk=new Set(tests.map(t=>t.t)); (d.tests||[]).forEach(t=>{ if(!tk.has(t.t)) tests.push(t); }); tests.sort((a,b)=>a.t-b.t);
+    (d.earned||[]).forEach(x=>earned.add(x));
+    const wk=new Set(words.map(w=>w.k)); (d.words||[]).forEach(w=>{ if(!wk.has(w.k)){ words.push(w); nW++; } });
+    await Promise.all([saveLib(),saveSessions(),saveTests(),saveWords(),DB.set('earned',[...earned])]);
+    $('bkStatus').textContent=`Copia cargada: ${nT} textos y ${nW} palabras nuevas. Lo que ya tenías se ha conservado.`;
+    checkBadges();
+  }catch(err){ $('bkStatus').textContent='No se pudo cargar: '+(err.message||err); }
+};
+
+/* ---------- leer desde un enlace ---------- */
+function mdToText(md){
+  const blocks=md.replace(/\r/g,'').split(/\n\s*\n/).map(b=>b.split('\n').map(l=>l
+      .replace(/!\[[^\]]*\]\([^)]*\)/g,'')
+      .replace(/\[([^\]]*)\]\([^)]*\)/g,'$1')
+      .replace(/^\s{0,3}#{1,6}\s*/,'').replace(/^\s*(?:[-*+]|\d+\.)\s+/,'').replace(/^\s*>\s?/,'')
+      .replace(/(\*\*|__|\*|_|`)(.+?)\1/g,'$2').replace(/^[=\-_*]{3,}$/,'').trim()
+    ).filter(Boolean).join(' ').trim());
+  return blocks.filter(b=>countWords(b)>=4).join('\n\n');
+}
+function htmlToText(html){
+  const d=new DOMParser().parseFromString(html,'text/html');
+  const meta=d.querySelector('meta[property="og:title"]');
+  const title=((meta&&meta.content)||d.title||'').trim();
+  d.querySelectorAll('script,style,noscript,nav,header,footer,aside,form,iframe,svg,button,select,figure,[role=navigation],[aria-hidden=true]').forEach(e=>e.remove());
+  let root=d.querySelector('article')||d.querySelector('[role=main]')||d.querySelector('main');
+  if(!root){ const score=new Map();
+    d.querySelectorAll('p').forEach(p=>{ const n=p.textContent.trim().length; if(n<40) return; const par=p.parentElement; score.set(par,(score.get(par)||0)+n); });
+    const best=[...score].sort((a,b)=>b[1]-a[1])[0]; root=best?best[0]:d.body; }
+  if(!root) return {title, text:''};
+  const seen=new Set(), out=[];
+  root.querySelectorAll('h1,h2,h3,p,li,blockquote').forEach(el=>{
+    if(el.closest('li,blockquote')!==el && el.closest('li,blockquote')) return;
+    const t=el.textContent.replace(/\s+/g,' ').trim(); if(countWords(t)<4 || seen.has(t)) return; seen.add(t); out.push(t); });
+  return {title, text: out.join('\n\n') || root.textContent.replace(/\s+/g,' ').trim()};
+}
+async function fetchUrlText(url){
+  const tries=[], enc=encodeURIComponent(url);
+  if(set.proxy) tries.push({kind:'html', u: set.proxy.includes('{url}') ? set.proxy.replace('{url}',enc) : set.proxy+enc});
+  tries.push({kind:'jina', u:'https://r.jina.ai/'+url});
+  tries.push({kind:'html', u:'https://api.allorigins.win/raw?url='+enc});
+  tries.push({kind:'html', u:'https://api.codetabs.com/v1/proxy/?quest='+enc});
+  const errs=[];
+  for(const t of tries){
+    try{
+      const ctl=new AbortController(), to=setTimeout(()=>ctl.abort(),20000);
+      const r=await fetch(t.u,{signal:ctl.signal}); clearTimeout(to);
+      if(!r.ok) throw new Error('respuesta '+r.status);
+      const body=await r.text(); let out;
+      if(t.kind==='jina'){
+        const m=body.match(/^Title:\s*(.*)$/m), c=body.split(/^Markdown Content:\s*$/m);
+        if(!m || c.length<2) throw new Error('formato inesperado');
+        out={title:m[1].trim(), text:mdToText(c.slice(1).join('\n'))};
+      } else out=htmlToText(body);
+      if(countWords(out.text)<20) throw new Error('casi sin texto');
+      return out;
+    }catch(e){ errs.push(new URL(t.u).host+': '+(e.name==='AbortError'?'tardó demasiado':e.message)); }
+  }
+  throw new Error(errs.join(' · '));
+}
+$('addUrlGo').onclick=async()=>{
+  let url=$('addUrl').value.trim();
+  if(!url){ $('addUrl').focus(); $('addStatus').textContent='Pega primero la dirección de la página.'; return; }
+  if(!/^https?:\/\//i.test(url)) url='https://'+url;
+  try{ new URL(url); }catch(e){ $('addStatus').textContent='Esa dirección no es válida.'; return; }
+  const btn=$('addUrlGo'); btn.disabled=true; btn.textContent='Trayendo…';
+  $('addStatus').textContent='Buscando el texto de la página… puede tardar unos segundos.';
+  try{
+    const {title,text}=await fetchUrlText(url);
+    if(!$('addTitle').value.trim() && title) $('addTitle').value=title;
+    $('addText').value=text; $('addText').scrollTop=0;
+    $('addStatus').textContent=`${fmtN(countWords(text))} palabras de ${new URL(url).hostname}. Revisa el texto y borra lo que sobre antes de guardar.`;
+  }catch(err){
+    $('addStatus').textContent='No se pudo leer la página. Prueba a abrirla, copiar el texto y usar Pegar. Detalle: '+err.message;
+  }finally{ btn.disabled=false; btn.textContent='Traer'; }
+};
+
+/* ---------- inicio ---------- */
+(async function init(){
+  await DB.open();
+  const s=await DB.get('settings'); if(s) set=Object.assign(JSON.parse(JSON.stringify(DEF)),s);
+  lib=(await DB.get('lib'))||[]; sessions=(await DB.get('sessions'))||[]; tests=(await DB.get('tests'))||[]; words=(await DB.get('words'))||[];
+  earned=new Set((await DB.get('earned'))||[]);
+  if(!(await DB.get('seeded'))){ if(!lib.length) await addText(SAMPLE_TITLE,SAMPLE); await DB.set('seeded',true); }
+  lib.forEach(x=>{ x.marks=x.marks||[]; x.notes=x.notes||[]; });
+  applyTheme(); checkBadges(); checkBadges.ready=true; showView('lib');
+})();
+
+/* ---------- PWA: modo sin conexión e instalación ---------- */
+if('serviceWorker' in navigator && location.protocol==='https:' && !window.claude){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+})();
+/script>
 </body>
 </html>
