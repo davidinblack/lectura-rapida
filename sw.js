@@ -1,5 +1,5 @@
 // Sube este número cada vez que publiques cambios para que los móviles descarguen la nueva versión.
-const VERSION = 'lr-v1';
+const VERSION = 'lr-v2';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 
 self.addEventListener('install', e => {
