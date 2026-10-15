@@ -1,5 +1,5 @@
 // Sube este número cada vez que publiques cambios para que los móviles descarguen la nueva versión.
-const VERSION = 'lr-v2';
+const VERSION = 'lr-v3';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -26,7 +26,7 @@ self.addEventListener('fetch', e => {
   }
 
   // Fuentes y lectores de PDF/Word/EPUB: caché primero, así funcionan sin conexión tras el primer uso.
-  if (url.origin === location.origin || /cdnjs\.cloudflare\.com|fonts\.(googleapis|gstatic)\.com/.test(url.host)) {
+  if (url.origin === location.origin || /cdnjs\.cloudflare\.com|cdn\.jsdelivr\.net|fonts\.(googleapis|gstatic)\.com/.test(url.host)) {
     e.respondWith(caches.match(req).then(hit => hit || fetch(req).then(res => {
       if (res.ok || res.type === 'opaque') { const copy = res.clone(); caches.open(VERSION).then(c => c.put(req, copy)); }
       return res;
