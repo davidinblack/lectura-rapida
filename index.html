@@ -222,6 +222,12 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 .pfoot{padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .urlrow{display:flex;gap:8px}
 .urlrow input{flex:1;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:1rem}
+.pay .sub input{width:110px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px;font-size:1rem;text-align:right;font-variant-numeric:tabular-nums}
+.money{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.money b{font-size:2rem;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.paylog{list-style:none;margin:10px 0 0;padding:0}
+.paylog li{display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid var(--line);font-size:.9rem;font-variant-numeric:tabular-nums}
+.paylog li.p{color:var(--muted)}
 .field input[type=text],.field input[type=url]{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px;font-size:.95rem;margin-top:8px}
 .sub{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
 .sub .seg{flex:0 0 200px}
@@ -272,6 +278,16 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
       <div class="num"><b id="sTime">0 min</b><span>tiempo de lectura</span></div>
       <div class="num"><b id="sWpm">–</b><span>velocidad media (ppm)</span></div>
       <div class="num"><b id="sStreak">0</b><span>días seguidos</span></div>
+    </div>
+    <div id="payWrap" hidden>
+      <h2>Recompensa</h2>
+      <div class="card">
+        <div class="money"><div><b id="payDue">$0.00</b> <span class="muted">por pagar</span></div><button type="button" class="primary" id="payBtn">Registrar pago</button></div>
+        <div class="pbar"><i id="payBar" style="width:0"></i></div>
+        <p class="muted" id="payNext" style="margin:8px 0 0;font-size:.9rem"></p>
+        <p class="muted" id="payTot" style="margin:4px 0 0;font-size:.9rem"></p>
+        <ul class="paylog" id="payLog"></ul>
+      </div>
     </div>
     <h2>Últimos 7 días</h2>
     <div class="card chart" id="chart"></div>
@@ -341,6 +357,17 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
         <button type="button" data-v="2">2</button><button type="button" data-v="3">3</button><button type="button" data-v="5">5</button><button type="button" data-v="10">10</button></div></div>
       <div class="sub"><label for="setSound" style="font-weight:400">Sonido y vibración al cambiar</label><input type="checkbox" class="switch" id="setSound"></div>
       <p class="muted" style="margin:10px 0 0;font-size:.88rem">Minutos. El cronómetro solo avanza mientras se lee; al llegar al tiempo, la lectura se pausa y empieza el descanso.</p>
+    </div>
+    <div class="field pay">
+      <div class="row"><label for="setPay">Recompensa por tiempo leído</label><input type="checkbox" class="switch" id="setPay"></div>
+      <div class="sub"><label for="setPayAmt" style="font-weight:400">Importe ($)</label><input type="number" id="setPayAmt" inputmode="decimal" min="0" step="0.5"></div>
+      <div class="sub"><label for="setPayMin" style="font-weight:400">Cada (minutos de lectura)</label><input type="number" id="setPayMin" inputmode="numeric" min="1" max="600" step="1"></div>
+      <p class="muted" style="margin:10px 0 0;font-size:.88rem">Solo cuenta el tiempo con la lectura en marcha; los minutos sobrantes se guardan para la próxima vez. Lo ganado y lo pagado se ve en Progreso.</p>
+    </div>
+    <div class="field">
+      <label>Instalar como app</label>
+      <p class="muted" id="instMsg" style="margin:6px 0 0;font-size:.9rem"></p>
+      <button type="button" class="primary" id="instBtn" style="width:100%;margin-top:10px" hidden>Instalar Lectura Rápida</button>
     </div>
     <div class="field">
       <label>Copia de seguridad</label>
@@ -485,13 +512,15 @@ const DB = {
 };
 
 const DEF = {wpm:300, chunk:1, mode:'rsvp', punct:true, font:100, theme:'auto', custom:{bg:'#FFFDF7',fg:'#1D1D1D',hl:'#E0335B'}, testDone:false,
-  blocks:true, blockMin:10, restMin:3, sound:true, proxy:'', syl:'off', spm:60};
+  blocks:true, blockMin:10, restMin:3, sound:true, proxy:'', syl:'off', spm:60, payOn:false, payAmt:5, payMin:10};
 let set = JSON.parse(JSON.stringify(DEF)), lib = [], sessions = [], tests = [], words = [];
 const saveWords = () => DB.set('words', words);
 const saveSet = () => DB.set('settings', set);
 const saveLib = () => DB.set('lib', lib);
 const saveSessions = () => DB.set('sessions', sessions);
 const saveTests = () => DB.set('tests', tests);
+let earn = {carry:0, log:[]};   // carry: ms leídos hacia el siguiente pago; log: {t, a, k:'e' ganado | 'p' pagado}
+const saveEarn = () => DB.set('earn', earn);
 
 const MODES = [
   {id:'rsvp',   name:'RSVP',    desc:'Una palabra cada vez en el mismo sitio, con la letra de enfoque resaltada.'},
@@ -1161,6 +1190,7 @@ function renderStats(){
   const from=periodStart(period), ss=sessions.filter(s=>s.t>=from);
   const w=ss.reduce((a,s)=>a+s.words,0), ms=ss.reduce((a,s)=>a+s.ms,0);
   $('sWords').textContent=fmtN(w); $('sTime').textContent=fmtMin(ms);
+  renderPay();
   $('sWpm').textContent = ms>0 ? fmtN(w/(ms/60000)) : '–'; $('sStreak').textContent=streak();
   // gráfico 7 días
   const days=[], lbl=['D','L','M','X','J','V','S'];
@@ -1196,12 +1226,17 @@ function renderSettings(){
   $('setTheme').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.t===set.theme)));
   $('customColors').hidden=set.theme!=='custom';
   $('cBg').value=set.custom.bg; $('cFg').value=set.custom.fg; $('cHl').value=set.custom.hl;
+  $('setPay').checked=set.payOn; $('setPayAmt').value=set.payAmt; $('setPayMin').value=set.payMin;
+  $('setPayAmt').disabled=$('setPayMin').disabled=!set.payOn;
   $('setBlocks').checked=set.blocks; $('setSound').checked=set.sound; $('setProxy').value=set.proxy||'';
   $('setBlk').querySelectorAll('button').forEach(b=>{ b.setAttribute('aria-pressed',String(+b.dataset.v===set.blockMin)); b.disabled=!set.blocks; });
   $('setRest').querySelectorAll('button').forEach(b=>{ b.setAttribute('aria-pressed',String(+b.dataset.v===set.restMin)); b.disabled=!set.blocks; });
 }
 $('setBlocks').onchange=e=>{ set.blocks=e.target.checked; saveSet(); renderSettings(); };
 $('setSound').onchange=e=>{ set.sound=e.target.checked; saveSet(); };
+$('setPay').onchange=e=>{ set.payOn=e.target.checked; saveSet(); renderSettings(); };
+$('setPayAmt').onchange=e=>{ const v=Math.round(parseFloat(String(e.target.value).replace(',','.'))*100)/100; if(v>=0){ set.payAmt=v; saveSet(); } renderSettings(); };
+$('setPayMin').onchange=e=>{ const v=Math.round(+e.target.value); if(v>=1&&v<=600){ set.payMin=v; saveSet(); } renderSettings(); };
 $('setBlk').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; set.blockMin=+b.dataset.v; saveSet(); renderSettings(); });
 $('setRest').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; set.restMin=+b.dataset.v; saveSet(); renderSettings(); });
 $('setProxy').onchange=e=>{ set.proxy=e.target.value.trim(); saveSet(); };
@@ -1214,7 +1249,7 @@ $('setFont').oninput=e=>{ set.font=+e.target.value; saveSet(); $('setFontVal').t
 $('setTheme').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; set.theme=b.dataset.t; saveSet(); applyTheme(); renderSettings(); });
 ['cBg','cFg','cHl'].forEach((id,k)=>$(id).oninput=e=>{ set.custom[['bg','fg','hl'][k]]=e.target.value; saveSet(); applyTheme(); });
 $('wipe').onclick=async()=>{ if(!confirm('Se borrarán tu biblioteca, palabras, estadísticas, logros y ajustes. ¿Continuar?')) return;
-  await DB.clear(); set=JSON.parse(JSON.stringify(DEF)); lib=[]; sessions=[]; tests=[]; words=[]; earned=new Set();
+  await DB.clear(); set=JSON.parse(JSON.stringify(DEF)); lib=[]; sessions=[]; tests=[]; words=[]; earned=new Set(); earn={carry:0, log:[]};
   await addText(SAMPLE_TITLE,SAMPLE); await saveSet(); applyTheme(); showView('lib'); toast('Datos borrados'); };
 
 /* ---------- sonido ---------- */
@@ -1238,13 +1273,14 @@ function blockElapsed(){ return B.elapsed + (B.runStart ? Date.now()-B.runStart 
 function timerStart(){
   if(B.runStart) return;
   if(B.last && Date.now()-B.last > 30*60000){ B.elapsed=0; B.n=1; }   // tras media hora sin leer, empieza de cero
-  B.runStart=Date.now(); clearInterval(B.iv); B.iv=setInterval(timerTick,250); renderTimer();
+  B.runStart=Date.now(); earnMark=Date.now(); clearInterval(B.iv); B.iv=setInterval(timerTick,250); renderTimer();
 }
 function timerStop(){
   if(B.runStart){ B.elapsed+=Date.now()-B.runStart; B.runStart=0; }
+  earnAccrue(); earnMark=0; saveEarn();
   clearInterval(B.iv); B.iv=null; B.last=Date.now(); renderTimer();
 }
-function timerTick(){ renderTimer(); if(set.blocks && blockElapsed()>=blockMs()) endBlock(); }
+function timerTick(){ earnAccrue(); renderTimer(); if(set.blocks && blockElapsed()>=blockMs()) endBlock(); }
 function renderTimer(){
   const el=blockElapsed();
   if(set.blocks){
@@ -1264,6 +1300,39 @@ $('rTimer').onclick=e=>{ e.stopPropagation();
   if(!confirm(set.blocks?'¿Reiniciar el bloque desde cero?':'¿Poner el cronómetro a cero?')) return;
   const run=!!B.runStart; B.elapsed=0; B.n=set.blocks?B.n:1; if(run) B.runStart=Date.now(); renderTimer(); };
 
+/* ---------- recompensa por tiempo leído ---------- */
+const money = n => '$'+(Math.round(n*100)/100).toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2});
+const payMs = () => Math.max(1,set.payMin)*60000;
+const earnSum = k => Math.round(earn.log.filter(x=>x.k===k).reduce((a,x)=>a+x.a,0)*100)/100;
+const payDue = () => Math.round((earnSum('e')-earnSum('p'))*100)/100;
+let earnMark=0, earnSaved=0;
+function earnAccrue(){
+  if(!earnMark) return;
+  const now=Date.now(), d=Math.min(now-earnMark, 5000);   // tope por si el móvil congeló la página
+  earnMark=now;
+  if(!set.payOn || !(set.payAmt>0) || d<=0) return;
+  earn.carry+=d;
+  let got=false;
+  while(earn.carry>=payMs()){ earn.carry-=payMs(); earn.log.push({t:now, a:set.payAmt, k:'e'}); got=true; }
+  if(got){ saveEarn(); earnSaved=now; chime(true); toast(`¡Ganaste ${money(set.payAmt)}! Por pagar: ${money(payDue())}`); }
+  else if(now-earnSaved>10000){ saveEarn(); earnSaved=now; }
+}
+function renderPay(){
+  $('payWrap').hidden = !set.payOn && !earn.log.length;
+  if($('payWrap').hidden) return;
+  const due=payDue();
+  $('payDue').textContent=money(due); $('payBtn').disabled = due<=0;
+  $('payBar').style.width=Math.min(100,earn.carry/payMs()*100)+'%';
+  $('payNext').textContent = set.payOn
+    ? `Faltan ${mmss(payMs()-earn.carry)} de lectura para ganar ${money(set.payAmt)} más (cada ${set.payMin} min).`
+    : 'La recompensa está desactivada en Ajustes.';
+  $('payTot').textContent=`Ganado en total: ${money(earnSum('e'))} · Pagado: ${money(earnSum('p'))}`;
+  $('payLog').innerHTML=earn.log.slice(-8).reverse().map(x=>`<li class="${x.k}"><span>${new Date(x.t).toLocaleString('es-MX',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'})} · ${x.k==='e'?'Ganado':'Pagado'}</span><span>${x.k==='e'?'+':'−'}${money(x.a)}</span></li>`).join('');
+}
+$('payBtn').onclick=()=>{ const due=payDue(); if(due<=0) return;
+  if(!confirm(`¿Registrar que pagaste ${money(due)}? El saldo por pagar quedará en $0.00.`)) return;
+  earn.log.push({t:Date.now(), a:due, k:'p'}); saveEarn(); renderPay(); toast('Pago registrado'); };
+
 /* ---------- descanso ---------- */
 const REST={end:0, iv:null, lock:null};
 function todayMs(){ const k=dayKey(Date.now()); return sessions.filter(s=>dayKey(s.t)===k).reduce((a,s)=>a+s.ms,0); }
@@ -1271,7 +1340,7 @@ async function endBlock(){
   pause(); B.elapsed=0; B.n++; renderTimer();
   REST.end=Date.now()+set.restMin*60000;
   $('restTitle').textContent='Descanso';
-  $('restMsg').textContent=`Bloque terminado: ${set.blockMin} minutos de lectura. Levántate, estírate y mira algo lejano. Hoy llevas ${fmtMin(todayMs())} leyendo.`;
+  $('restMsg').textContent=`Bloque terminado: ${set.blockMin} minutos de lectura. Levántate, estírate y mira algo lejano. Hoy llevas ${fmtMin(todayMs())} leyendo.`+(set.payOn?` Por pagar: ${money(payDue())}.`:'');
   $('restSkip').hidden=false; $('restGo').hidden=true;
   $('rest').hidden=false; chime(false);
   try{ if('wakeLock' in navigator) REST.lock=await navigator.wakeLock.request('screen'); }catch(e){}
@@ -1389,7 +1458,7 @@ $('pClose').onclick=closePractice;
 $('expBtn').onclick=async()=>{
   try{
     const texts={}; for(const it of lib) texts[it.id]=(await DB.get('t:'+it.id))||'';
-    const data={app:'lectura-rapida', version:2, exported:new Date().toISOString(), settings:set, lib, texts, sessions, tests, earned:[...earned], words};
+    const data={app:'lectura-rapida', version:2, exported:new Date().toISOString(), settings:set, lib, texts, sessions, tests, earned:[...earned], words, earn};
     const blob=new Blob([JSON.stringify(data)],{type:'application/json'});
     const name=`lectura-rapida-copia-${dayKey(Date.now())}.json`;
     const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click();
@@ -1412,8 +1481,11 @@ $('impIn').onchange=async e=>{
     sessions.sort((a,b)=>a.t-b.t);
     const tk=new Set(tests.map(t=>t.t)); (d.tests||[]).forEach(t=>{ if(!tk.has(t.t)) tests.push(t); }); tests.sort((a,b)=>a.t-b.t);
     (d.earned||[]).forEach(x=>earned.add(x));
+    if(d.earn && Array.isArray(d.earn.log)){ const ek=new Set(earn.log.map(x=>x.t+':'+x.k));
+      d.earn.log.forEach(x=>{ if(!ek.has(x.t+':'+x.k)) earn.log.push(x); }); earn.log.sort((a,b)=>a.t-b.t);
+      earn.carry=Math.max(earn.carry, +d.earn.carry||0); }
     const wk=new Set(words.map(w=>w.k)); (d.words||[]).forEach(w=>{ if(!wk.has(w.k)){ words.push(w); nW++; } });
-    await Promise.all([saveLib(),saveSessions(),saveTests(),saveWords(),DB.set('earned',[...earned])]);
+    await Promise.all([saveLib(),saveSessions(),saveTests(),saveWords(),saveEarn(),DB.set('earned',[...earned])]);
     $('bkStatus').textContent=`Copia cargada: ${nT} textos y ${nW} palabras nuevas. Lo que ya tenías se ha conservado.`;
     checkBadges();
   }catch(err){ $('bkStatus').textContent='No se pudo cargar: '+(err.message||err); }
@@ -1492,6 +1564,7 @@ $('addUrlGo').onclick=async()=>{
   const s=await DB.get('settings'); if(s) set=Object.assign(JSON.parse(JSON.stringify(DEF)),s);
   lib=(await DB.get('lib'))||[]; sessions=(await DB.get('sessions'))||[]; tests=(await DB.get('tests'))||[]; words=(await DB.get('words'))||[];
   earned=new Set((await DB.get('earned'))||[]);
+  earn=Object.assign({carry:0, log:[]}, (await DB.get('earn'))||{});
   if(!(await DB.get('seeded'))){ if(!lib.length) await addText(SAMPLE_TITLE,SAMPLE); await DB.set('seeded',true); }
   lib.forEach(x=>{ x.marks=x.marks||[]; x.notes=x.notes||[]; });
   applyTheme(); checkBadges(); checkBadges.ready=true; showView('lib');
@@ -1501,6 +1574,18 @@ $('addUrlGo').onclick=async()=>{
 if('serviceWorker' in navigator && location.protocol==='https:' && !window.claude){
   navigator.serviceWorker.register('sw.js').catch(()=>{});
 }
+let installEvt=null;
+const isInstalled = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone===true;
+function renderInstall(){
+  $('instBtn').hidden = !installEvt || isInstalled();
+  $('instMsg').textContent = isInstalled() ? 'Ya está instalada en este dispositivo.'
+    : installEvt ? 'Añade un icono a tu pantalla de inicio; se abre a pantalla completa y funciona sin conexión.'
+    : 'En Chrome para Android: menú ⋮ → «Instalar app» o «Añadir a pantalla de inicio». En iPhone (Safari): Compartir → «Añadir a pantalla de inicio».';
+}
+window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); installEvt=e; renderInstall(); });
+window.addEventListener('appinstalled',()=>{ installEvt=null; renderInstall(); toast('App instalada'); });
+$('instBtn').onclick=async()=>{ if(!installEvt) return; installEvt.prompt(); try{ await installEvt.userChoice; }catch(e){} installEvt=null; renderInstall(); };
+renderInstall();
 })();
 </script>
 </body>

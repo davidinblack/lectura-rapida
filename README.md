@@ -1,6 +1,6 @@
 # Lectura Rápida
 
-App web para entrenar la velocidad de lectura: modos RSVP, palabra, línea y biónica; test de velocidad con comprensión; biblioteca con marcadores y notas; estadísticas y logros. Importa txt, pdf, docx, pptx y epub.
+App web para entrenar la velocidad de lectura: modos RSVP, palabra, línea y biónica; test de velocidad con comprensión; biblioteca con marcadores y notas; estadísticas y logros; recompensa en dinero por tiempo leído. Importa txt, pdf, docx, pptx y epub.
 
 Funciona en el navegador, se puede instalar en Android como app (Chrome → menú ⋮ → *Instalar app* o *Añadir a pantalla de inicio*) y sigue funcionando sin conexión. Todos los datos se guardan solo en el dispositivo de cada persona.
 
